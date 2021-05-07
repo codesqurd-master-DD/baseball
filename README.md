@@ -2,13 +2,31 @@
 
 ## Members
 
-- Woody
-- DD
-- Luke
+- Woody(BE)
+- DD(FE)
+- Luke(FE)
 
 ## Document
 
 - [Wiki](https://github.com/codesqurd-master-DD/baseball/wiki)를 참고해주세요
+
+- [ Component tree/Feature list ](https://github.com/codesqurd-master-DD/baseball/wiki/Component-tree,-feature-list)
+
+## 진행 상황
+
+### 공통
+
+- 협업룰
+- API 요청 시점, Request header, 예상 response JSON 논의
+
+### FE
+
+- 컴포넌트 트리 
+- Feature List
+- StartPage lazy loading
+
+### BE
+
 
 
 ## Current Demo
