@@ -10,15 +10,18 @@ flex-direction:column;
 const ScoreCotainer = styled(CenterContainer)`
 width:100%;
 height: 25%;
-border-bottom: 10px solid black;
+border-bottom: 10px solid #7e7b7b;
 `;
 const GameInfo = styled.div`
-margin-top: 50px;
-font-size: 30px;
+margin-top: 60px;
+font-size: 40px;
+font-weight: 600;
 `;
 const MatchInfo = styled.div`
-padding: 20px;
-font-size: 50px;
+margin-top: 20px;
+padding: 10px;
+font-size: 100px;
+font-weight:700;
 `;
 const ScoreBox = () => {
     return (

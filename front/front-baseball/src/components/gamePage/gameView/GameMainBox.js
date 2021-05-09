@@ -1,22 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import GroundBox from "./GroundBox";
 import ScoreBox from "./ScoreBox";
 import PlayerBox from "./PlayerBox";
 import PlayerDetailBox from "./PlayerDetailBox"
-// import axios from "axios";
 const GameContainer = styled.div`
-
 position: absolute;
 width:100%;
 height:100%;
-border: 10px solid black;
+border: 10px solid #7e7b7b;
+background-color: black;
+color: white;
 `;
 const MatchContainer = styled.div`
 float: left;
 width: 75%;
 height: 100%;
-border-right: 10px solid black;
+border-right: 10px solid #7e7b7b;
 `;
 const PlayerContainer = styled.div`
 float: right;
@@ -30,7 +30,7 @@ const playerData = {
         teamName: "Rockets",
         pitcher: {
         playerId: "player-0",
-        playerNumber: "number-0",
+        playerNumber: 51,
         playerName: "류현진",
         },
     batters: [
@@ -130,11 +130,78 @@ const playerData = {
     }
 
 const GameMainBox = () => {
+
+    const [strikeCnt, setStrikeCnt] = useState([]);
+    const [ballCnt, setBallCnt] = useState([]);
+    const [outCnt, setOutCnt] = useState([]);
+    const createPitchResult = () => {
+        const pitchArr = ['Strike', 'Ball', 'Hits'];
+        const CreateBallCount = () => {
+            return pitchArr[Math.floor(Math.random()*pitchArr.length)];
+        }
+        switch(CreateBallCount()) {
+            case 'Strike':
+                console.log('s');
+                return addStrike();
+            case 'Ball':
+                console.log('b');
+                return addBall();
+            case 'Hits':
+                return console.log('H');
+            default:
+                throw new Error();
+        }
+        // pitchArr[]
+    }
+    const addStrike = () => {
+        if(strikeCnt.length > 2) return;
+        setStrikeCnt([...strikeCnt, {
+            id: strikeCnt.length,
+            value: 0
+        }])
+        console.log(strikeCnt);
+        if(strikeCnt.length === 2) {
+            setTimeout(() => {
+                setBallCnt([]);
+                setStrikeCnt([]);
+                return addOut();
+            }, 1000);
+        }
+    }
+    const addOut = () => {
+        if(outCnt.length > 2) return;
+        setOutCnt([...outCnt, {
+            id: outCnt.length,
+            value: 0
+        }])
+        if(outCnt.length === 2) {
+            console.log('공수전환');
+            setTimeout(() => {
+                setOutCnt([]);
+                return;
+            }, 1000)
+        }
+    }
+    const addBall = () => {
+        if(ballCnt.length > 3) return;
+        setBallCnt([...ballCnt, {
+            id: ballCnt.length,
+            value: 0
+        }])
+        if(ballCnt.length === 3) {
+            console.log('4볼');
+            setTimeout(() => {
+                setStrikeCnt([]);
+                setBallCnt([]);
+                return;
+            }, 1000)
+        }
+    }
     return (
         <GameContainer>
             <MatchContainer>
                 <ScoreBox />
-                <GroundBox playerData={playerData}/>
+                <GroundBox strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
                 <PlayerBox playerData={playerData}/>
