@@ -2,6 +2,7 @@ package com.team20.baseball.controller;
 
 import com.team20.baseball.application.GameService;
 import com.team20.baseball.domain.game.Game;
+import com.team20.baseball.dto.GameResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class GameApiController {
     }
 
     @GetMapping()
-    public List<Game> gameList(){
+    public List<GameResponse> gameList(){
         return gameService.gameList();
     }
 
