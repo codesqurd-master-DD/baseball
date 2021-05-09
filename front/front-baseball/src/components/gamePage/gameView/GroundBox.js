@@ -15,6 +15,9 @@ const SBOState = styled.div``;
 const HorizonList = styled.ul`
 list-style: none;
 display:felx;
+border: 1px solid red;
+align-items: center;
+/* padding: 10px 0; */
 /* font-size: 20px; */
 `;
 const StrikeView = styled(HorizonList)`
@@ -22,40 +25,44 @@ const StrikeView = styled(HorizonList)`
 `;
 const BallView = styled(HorizonList)``;
 const OutView = styled(HorizonList)``;
-const StrikeList = styled.li`
-/* padding: 10px; */
+const SBOList = styled.li`
 font-size: 40px;
+font-weight: 900;
 `;
-const BallList = styled.li`
-/* padding: 10px; */
-font-size: 40px;
+const StrikeList = styled(SBOList)`
+
 `;
-const OutList = styled.li`
-/* padding: 10px; */
+const BallList = styled(SBOList)`
+`;
+const OutList = styled(SBOList)`
 font-size: 40px;
 `;
 const StrikeCircle = styled.div`
-width:50px;
-height:50px;
+width:40px;
+height:40px;
 border-radius:50%;
 background-color:yellow;
-padding: 10 0px;
+margin-left:10px;
 `;
 const BallCircle = styled.div`
-width:50px;
-height:50px;
+width:40px;
+height:40px;
 border-radius:50%;
 background-color:green;
-padding: 0 10px;
+margin-left:10px;
 `;
 const OutCircle = styled.div`
-width:50px;
-height:50px;
+width:40px;
+height:40px;
 border-radius:50%;
 background-color:red;
-padding: 0 10px;
+margin-left:10px;
 `;
-const GroundBox = () => {
+
+
+const GroundBox = ({playerData}) => {
+    console.log(playerData)
+    
     const [pitchState, setPitchState] = useState(true);
     const ConvertPosition = () => {
         setPitchState(!pitchState);
@@ -67,6 +74,7 @@ const GroundBox = () => {
                 console.log('s');
                 return addStrike();
             case 'Ball':
+                console.log('b');
                 return addBall();
             case 'Hits':
                 return console.log('H');
@@ -90,7 +98,7 @@ const GroundBox = () => {
                 setBallCnt([]);
                 setStrikeCnt([]);
                 return addOut();
-            }, 2000);
+            }, 1000);
         }
     }
     const addOut = () => {
@@ -104,7 +112,7 @@ const GroundBox = () => {
             setTimeout(() => {
                 setOutCnt([]);
                 return;
-            }, 2000)
+            }, 1000)
         }
     }
     const addBall = () => {
@@ -119,7 +127,7 @@ const GroundBox = () => {
                 setStrikeCnt([]);
                 setBallCnt([]);
                 return;
-            }, 2000)
+            }, 1000)
         }
     }
     return (
