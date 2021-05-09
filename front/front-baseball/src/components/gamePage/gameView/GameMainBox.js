@@ -130,7 +130,9 @@ const playerData = {
     }
 
 const GameMainBox = () => {
-
+    const [ourTeamState, setOurTeamState] = useState(0);
+    const [opponentTeamState, setOpponentTeamState] = useState(0);
+    const [hitsCnt, setHitsCnt] = useState(0);
     const [strikeCnt, setStrikeCnt] = useState([]);
     const [ballCnt, setBallCnt] = useState([]);
     const [outCnt, setOutCnt] = useState([]);
@@ -147,11 +149,15 @@ const GameMainBox = () => {
                 console.log('b');
                 return addBall();
             case 'Hits':
-                return console.log('H');
+                return addHits();
             default:
                 throw new Error();
         }
         // pitchArr[]
+    }
+    const addHits = () => {
+        if(hitsCnt === 0) setHitsCnt(hitsCnt + 1);
+        setOpponentTeamState(opponentTeamState + 1)
     }
     const addStrike = () => {
         if(strikeCnt.length > 2) return;
@@ -174,6 +180,7 @@ const GameMainBox = () => {
             id: outCnt.length,
             value: 0
         }])
+        setHitsCnt(0);
         if(outCnt.length === 2) {
             console.log('공수전환');
             setTimeout(() => {
@@ -200,11 +207,11 @@ const GameMainBox = () => {
     return (
         <GameContainer>
             <MatchContainer>
-                <ScoreBox />
+                <ScoreBox opponentTeamState={opponentTeamState}/>
                 <GroundBox strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
-                <PlayerBox playerData={playerData}/>
+                <PlayerBox hitsCnt={hitsCnt} playerData={playerData}/>
                 <PlayerDetailBox />
             </PlayerContainer>
         </GameContainer>

@@ -23,11 +23,14 @@ padding: 10px;
 font-size: 100px;
 font-weight:700;
 `;
-const ScoreBox = () => {
+const ScoreBox = ({opponentTeamState, outTeamSate}) => {
+    const MatchInfoStr = () => {
+        return `Captain ${opponentTeamState} vs 5 Marvel`;
+    }
     return (
         <ScoreCotainer>
             <GameInfo>BASEBALL GAME ONLINE</GameInfo>
-            <MatchInfo>Captain 1 vs 5 Marvel</MatchInfo>
+            <MatchInfo>{MatchInfoStr()}</MatchInfo>
         </ScoreCotainer>
     );
 }
