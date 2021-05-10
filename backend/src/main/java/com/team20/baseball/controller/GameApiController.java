@@ -21,12 +21,13 @@ public class GameApiController {
     }
 
     @GetMapping
-    public List<GameResponse> list() {
-        return gameService.gameList();
+    public ApiResponse list() {
+        return ApiResponse.OK(gameService.gameList());
     }
 
-    @GetMapping("/{startIndex}")
-    public List<GameResponse> list(@PathVariable int startIndex) {
-        return gameService.gameList(PagingRequest.of(startIndex));
+    @GetMapping("/{offset}")
+    public ApiResponse list(@PathVariable int offset) {
+        return ApiResponse.OK(
+                gameService.gameList(PagingRequest.of(offset)));
     }
 }
