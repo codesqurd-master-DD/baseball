@@ -5,24 +5,24 @@ import com.team20.baseball.domain.team.Team;
 
 public class GameResponse {
     private Long gameId;
-    private Team home;
-    private Team away;
+    private TeamResponse home;
+    private TeamResponse away;
 
     private GameResponse(Long gameId, Team home, Team away) {
         this.gameId = gameId;
-        this.home = home;
-        this.away = away;
+        this.home = TeamResponse.of(home);
+        this.away = TeamResponse.of(away);
     }
 
     public Long getGameId() {
         return gameId;
     }
 
-    public Team getHome() {
+    public TeamResponse getHome() {
         return home;
     }
 
-    public Team getAway() {
+    public TeamResponse getAway() {
         return away;
     }
 
