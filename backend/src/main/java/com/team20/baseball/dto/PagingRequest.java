@@ -1,5 +1,7 @@
 package com.team20.baseball.dto;
 
+import org.springframework.data.domain.PageRequest;
+
 public class PagingRequest {
 
     private static final int DEFAULT_LIMIT = 4;
@@ -22,6 +24,9 @@ public class PagingRequest {
 
     public static PagingRequest of(int offset) {
         return new PagingRequest(offset, DEFAULT_LIMIT);
+    }
+    public PageRequest toPageRequest() {
+        return PageRequest.of(offset - 1, limit);
     }
 
 }
