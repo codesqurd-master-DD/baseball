@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import GamesBox from "./GamesBox";
+
 const StartPage = ({ history }) => {
   return (
     <StartPageWrapper>

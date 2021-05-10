@@ -23,7 +23,8 @@ const PlayerContainer = styled.div`
 `;
 
 const GameMainBox = ({ location }) => {
-  console.log(location);
+  console.log(location.state);
+
   return (
     <GameContainer>
       <MatchContainer>

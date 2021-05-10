@@ -1,3 +1,19 @@
+const ROOT = "http://54.180.73.20:8080/";
+
+const request = (url, option = {}) => {
+  return fetch(`${ROOT}${url}`, option)
+    .then((res) => {
+      if (!res.ok) return new Error(res.status);
+      return res.json();
+    })
+    .catch((err) => console.error(err));
+};
+
+export const getGames = async (index) => {
+  const result = await request(`game/${index}`);
+  return result.response;
+};
+
 export const dummyFetchGames = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -9,7 +25,6 @@ export const dummyFetchGames = () => {
 export const dummyFetchSelectedGame = (teamId, flag) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const randomBoolean = Math.random() < 0.5;
       if (flag) {
         resolve({
           isSelected: true,

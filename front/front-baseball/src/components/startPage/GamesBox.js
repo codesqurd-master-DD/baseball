@@ -2,54 +2,60 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { MESSAGE } from "../../utils/constant.js";
 import { useInfiniteScroll } from "../../utils/hooks.js";
-import { dummyFetchGames } from "../../utils/fetchFns.js";
+import { dummyFetchGames, getGames } from "../../utils/fetchFns.js";
+
 import Game from "./Game";
 
 const GamesBox = ({ history }) => {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [message, setMessage] = useState([MESSAGE.INIT]);
   const rootRef = useRef();
   const targetRef = useRef();
-
+  const isInitial = useRef(true);
+  const gamesIndex = useRef(1);
+  const last = useRef(false);
   const requestNewGames = useCallback(async () => {
     try {
       setLoading(true);
-      const newGames = await dummyFetchGames();
+      const newGames = await getGames(gamesIndex.current);
+      gamesIndex.current++;
       return newGames;
     } catch (e) {
       setError(e);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setLoading, setError]);
 
   const initialGameList = useCallback(async () => {
     const newGames = await requestNewGames();
     setGameList(newGames);
-  }, [requestNewGames]);
+  }, []);
 
   const loadMoreGames = useCallback(async () => {
     const newGames = await requestNewGames();
+    if (newGames.length === 0) setError(true);
     setGameList((games) => [...games, ...newGames]);
-  }, [requestNewGames]);
+  }, []);
 
   useInfiniteScroll({
     root: rootRef.current,
     target: targetRef.current,
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !loading) {
+      if (isIntersecting && !loading && !error) {
         loadMoreGames();
       }
     },
   });
 
   useEffect(() => {
-    if (gameList.length < 1) {
+    if (isInitial.current) {
+      isInitial.current = false;
       initialGameList();
     }
-  });
+  }, []);
 
   return (
     <MenuWrapper>
@@ -57,9 +63,14 @@ const GamesBox = ({ history }) => {
       <GamesContainer>
         <Games ref={rootRef}>
           {gameList.map((game) => (
-            <Game {...game} history={history} setMessage={setMessage} />
+            <Game
+              {...game}
+              history={history}
+              setMessage={setMessage}
+              key={game.gameId}
+            />
           ))}
-          <div ref={targetRef}>{error && <ErrorView />}</div>
+          <div ref={targetRef}>{error && <ErrorView>끝!!</ErrorView>}</div>
         </Games>
         {loading && (
           <LoadingView>
