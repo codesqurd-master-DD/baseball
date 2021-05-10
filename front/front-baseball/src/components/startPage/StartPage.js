@@ -8,6 +8,7 @@ const StartPage = () => {
     </StartPageWrapper>
   );
 };
+
 const Title = styled.h1`
   font-size: 4rem;
   margin: 2rem 0;

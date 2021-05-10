@@ -14,7 +14,7 @@ const MenuBox = () => {
   const requestNewGames = useCallback(async () => {
     try {
       setLoading(true);
-      const games = await dummyFetch();
+      const games = await dummyFetchGames();
       return games;
     } catch (e) {
       setError(e);
@@ -54,10 +54,9 @@ const MenuBox = () => {
       <MessageBox>{MESSAGE.INIT}</MessageBox>
       <GamesContainer>
         <Games ref={rootRef}>
-          {games.map((el) => (
-            <Game />
+          {games.map((game) => (
+            <Game {...game} />
           ))}
-
           <div ref={targetRef}>{error && <ErrorView />}</div>
         </Games>
         {loading && (
@@ -70,7 +69,7 @@ const MenuBox = () => {
   );
 };
 
-const dummyFetch = () => {
+const dummyFetchGames = () => {
   const data = {
     games: [
       {
@@ -83,7 +82,7 @@ const dummyFetch = () => {
         away: {
           teamId: "team-2",
           teamName: "Mavel",
-          selected: true,
+          selected: false,
         },
       },
       {
@@ -109,7 +108,7 @@ const dummyFetch = () => {
         away: {
           teamId: "team-6",
           teamName: "Dodgers",
-          selected: true,
+          selected: false,
         },
       },
     ],
@@ -130,7 +129,7 @@ const LoadingView = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 300px;
+  height: 500px;
 `;
 
 const bounce = keyframes`
@@ -144,8 +143,8 @@ const bounce = keyframes`
 
 const LoadingCircle = styled.div`
   background-color: transparent;
-  border: 5px solid transparent;
-  border-top: 5px solid rgba(189, 215, 60);
+  border: 10px solid transparent;
+  border-top: 10px solid rgba(189, 215, 60);
   width: 100px;
   height: 100px;
   border-radius: 100px;
@@ -166,7 +165,7 @@ const GamesContainer = styled.div`
   position: relative;
 `;
 const Games = styled.div`
-  height: 300px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   overflow: scroll;
