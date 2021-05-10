@@ -6,20 +6,20 @@ height: 25%;
 border-bottom: 10px solid #7e7b7b;
 `;
 const PitcherContainer = styled.div`
-    padding: 25px;
+    padding: 1em;
     border: 1px solid white;
     `;
 const BatterContainer = styled.div`
-padding: 25px;
+padding: 1em;
 border: 1px solid white;
 `;
 const PlayerTitle = styled.div`
-font-size: 40px;
+font-size: 2em;
 font-weight:500;
 border: 1px solid blue;
 `;
 const PlayerInfo = styled.ul`
-font-size: 30px;
+font-size: 1.5em;
 display:flex;
 list-style:none;
 border: 1px solid red;
@@ -30,7 +30,7 @@ margin-right: 20px;
 color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
-const PlayerBox = ({playerData, hitsCnt}) => {
+const PlayerBox = ({playerData, hitsCnt, batterState}) => {
     console.log(playerData.homeTeamData.pitchers);
     const [playerState, setPlayerState] = useState(0);
     const addPlayerIndex = () => {

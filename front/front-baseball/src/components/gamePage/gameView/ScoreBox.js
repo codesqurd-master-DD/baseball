@@ -20,7 +20,7 @@ font-weight: 600;
 const MatchInfo = styled.div`
 margin-top: 20px;
 padding: 10px;
-font-size: 100px;
+font-size: 5em;
 font-weight:700;
 `;
 const ScoreBox = ({opponentTeamState, outTeamSate}) => {
