@@ -88,6 +88,11 @@ const playerData = {
             playerId: 11,
             playerNumber: 232,
             playerName: "Lano",
+        },
+        {
+            playerId: 12,
+            playerNumber: 234,
+            playerName: "Lanu",
         }
 
     ],
@@ -151,13 +156,21 @@ const playerData = {
             playerNumber: 41,
             playerName: "Junny",
         },
+        {
+            playerId: 17,
+            playerNumber: 431,
+            playerName: "Crong",
+        },
+        {
+            playerId: 18,
+            playerNumber: 431,
+            playerName: "honux",
+        },
     ],
     }
     }
 
 const GameMainBox = () => {
-    console.log('Main');
-
     // 루수에대한 배열 상태 -> 4개의 배열상태를 만들어 최신화 하면서 마지막 배열이 1일때 카운터 증가
     const [basemanSate, setBasemanState] = useState([]);
     // 내가 선택한 팀의 스코어 증가 -> 막배열 1이면 1증가
@@ -169,8 +182,13 @@ const GameMainBox = () => {
     const [homeBattersIndex, setHomeBattersIndex] = useState(0);
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
     const addPlayerIndex = () => {
-        console.log('선수 교체');
-        setOurBatterIndex(ourBatterIndex + 1);
+        if(awayBattersIndex >= 10) setAwayBattersIndex(0);
+        if(homeBattersIndex >= 10) setHomeBattersIndex(0);
+        if(isTop) setAwayBattersIndex(awayBattersIndex+1);
+        if(!isTop) setHomeBattersIndex(homeBattersIndex+1);
+    }
+    const setTeamIndex = () => {
+        return isTop ? awayBattersIndex : homeBattersIndex;
     }
     // 안타 카운터 상태
     const [hitsCnt, setHitsCnt] = useState(0);
@@ -198,9 +216,6 @@ const GameMainBox = () => {
         // setInterval(() => createPitchResult(), 3000);
     }
     const [isDefense, setIsDefense] = useState(true);
-    // const isDefense = () => {
-        
-    // }
     // 초기 셋팅 값 다음의 회차 업데이트 작성 
 
     
@@ -218,13 +233,10 @@ const GameMainBox = () => {
         }
         switch(CreateBallCount()) {
             case 'Strike':
-                console.log('s');
                 return addStrike();
             case 'Ball':
-                console.log('b');
                 return addBall();
             case 'Hits':
-                console.log('h');
                 return addHits();
             default:
                 throw new Error();
@@ -233,19 +245,14 @@ const GameMainBox = () => {
     }
     const addHits = () => {
         if(hitsCnt === 0) setHitsCnt(hitsCnt + 1);
-        console.log('안타')
         addPlayerIndex();
-        // setOpponentTeamState(opponentTeamState + 1)
-        // setBasemanState(basemanSate.push(1));
     }
     const addStrike = () => {
-        console.log('스트라이크')
         if(strikeCnt.length > 2) return;
         setStrikeCnt([...strikeCnt, {
             id: strikeCnt.length,
             value: 0
         }])
-        console.log(strikeCnt);
         if(strikeCnt.length === 2) {
             setTimeout(() => {
                 setBallCnt([]);
@@ -255,8 +262,6 @@ const GameMainBox = () => {
         }
     }
     const addOut = () => {
-        console.log('아웃');
-        // setBasemanState(basemanSate.push())
         if(outCnt.length > 2) return;
         setOutCnt([...outCnt, {
             id: outCnt.length,
@@ -267,7 +272,6 @@ const GameMainBox = () => {
             return addPlayerIndex();
         }
         if(outCnt.length === 2) {
-            console.log('공수전환');
             setTimeout(() => {
                 setTurn();
                 setOutCnt([]);
@@ -294,7 +298,6 @@ const GameMainBox = () => {
             value: 0
         }])
         if(ballCnt.length === 3) {
-            console.log('4볼');
             addPlayerIndex();
             setTimeout(() => {
                 setStrikeCnt([]);
@@ -304,18 +307,13 @@ const GameMainBox = () => {
         }
     }
     useEffect(() => {
-        // console.log('useEffect')
-        console.log(pitchState);
         if(pitchState) return;
         let Timer;
-        console.log(isDefense);
         if(!isDefense){
             Timer = setTimeout(() => {createPitchResult()}, 500);
         }
-        console.log('컴포넌트가 화면에 나타남');
         return () => {
             clearTimeout(Timer);
-        //   console.log('컴포넌트가 화면에서 사라짐');
         };
       });
     return (
@@ -325,7 +323,7 @@ const GameMainBox = () => {
                 <GroundBox isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
-                <PlayerBox setPitcherTeam={setPitcherTeam} setBattersTeam={setBattersTeam} ourBatterIndex={ourBatterIndex} hitsCnt={hitsCnt} playerData={playerData}/>
+                <PlayerBox setTeamIndex={setTeamIndex}setPitcherTeam={setPitcherTeam} setBattersTeam={setBattersTeam} ourBatterIndex={ourBatterIndex} hitsCnt={hitsCnt} playerData={playerData}/>
                 <PlayerDetailBox />
             </PlayerContainer>
         </GameContainer>

@@ -30,14 +30,14 @@ margin-right: 20px;
 color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
-const PlayerBox = ({setPitcherTeam, setBattersTeam, playerData, hitsCnt, ourBatterIndex}) => {
-    console.log(ourBatterIndex);
+const PlayerBox = ({setTeamIndex, setPitcherTeam, setBattersTeam, playerData, hitsCnt, ourBatterIndex}) => {
+
     
     // let check = defaultPlayer;
     const setPlayer = () => {
         let siteCnt = 1;
         let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
-        let batter = playerData[setBattersTeam()].batters[ourBatterIndex].playerName;
+        let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
         let batterArr = [batter, batterInfo];
         const batterList = batterArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
         return batterList;
@@ -48,7 +48,6 @@ const PlayerBox = ({setPitcherTeam, setBattersTeam, playerData, hitsCnt, ourBatt
         let pitNum = `#${pitchers.playerNumber}`
         const pitcherArr = [pitchers.playerName, pitNum];
         const pitcherList = pitcherArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
-        // console.log(playerData.homeTeamData.pitcher.playerNumber);
         return pitcherList;
     }
     return (
