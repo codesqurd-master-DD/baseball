@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
+import { FadeWrapper, SlideBox } from "../animation";
 const INNING_COUNT = Array.from({ length: 12 }, (_, i) => i + 1);
 function CurrentScoreBox() {
   const [show, setShow] = useState(true);
@@ -32,8 +33,13 @@ function CurrentScoreBox() {
       </TeamName>
     );
   };
+  const onTransitionEnd = () => {
+    if (!show) {
+      // 이 컴포넌트를 unmount하는 함수(부모에게 받기)
+    }
+  };
   return (
-    <CurrentScoreBoxWrapper
+    <FadeWrapper
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           setShow(false);
@@ -41,55 +47,17 @@ function CurrentScoreBox() {
       }}
       show={show}
     >
-      <ScoreBox show={show}>
-        {renderRow("", INNING_COUNT, "R")}
-        <hr />
-        {renderRow("Captain", [1, 0, 0, 2], 3, true)}
-        {renderRow("Marvel", [0, 0, 2], 2)}
-      </ScoreBox>
-    </CurrentScoreBoxWrapper>
+      <SlideBox show={show} from={-150} to={0}>
+        <ScoreBox>
+          {renderRow("", INNING_COUNT, "R")}
+          <hr />
+          {renderRow("Captain", [1, 0, 0, 2], 3, true)}
+          {renderRow("Marvel", [0, 0, 2], 2)}
+        </ScoreBox>
+      </SlideBox>
+    </FadeWrapper>
   );
 }
-const slideDown = keyframes`
-    from{
-        transform : translateY(-150%)
-    }
-    to{
-        transform : translateY(0)
-    }
-`;
-const slideUp = keyframes`
-    from{
-        transform : translateY(0)
-    }
-    to{
-        transform : translateY(-150%)
-    }
-`;
-
-const fadeIn = keyframes`
-    from{
-        background: rgba(0, 0, 0, 0);
-    }
-    to{
-        background: rgba(0, 0, 0, .7);
-    }
-`;
-const fadeOut = keyframes`
-    from{
-        background: rgba(0, 0, 0, .7);
-    }
-    to{
-        background: rgba(0, 0, 0, 0);
-    }
-`;
-const CurrentScoreBoxWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  padding-top: 2rem;
-  animation: ${({ show }) => (show ? fadeIn : fadeOut)} 1.5s forwards cubic-bezier(0.33, 1, 0.68, 1);
-  text-align: center;
-`;
 
 const ScoreBox = styled.div`
   display: inline-block;
@@ -98,7 +66,6 @@ const ScoreBox = styled.div`
   padding: 2rem 7rem;
   color: white;
   font-size: 2rem;
-  animation: ${({ show }) => (show ? slideDown : slideUp)} 1.5s forwards cubic-bezier(0.33, 1, 0.68, 1);
 `;
 const Row = styled.div`
   display: flex;
