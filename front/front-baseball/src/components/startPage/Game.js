@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
-import { dummyFetchSelectedGame } from "../../utils/fetchFns.js";
+import { getGameData } from "../../utils/fetchFns.js";
 import { MESSAGE } from "../../utils/constant.js";
 import React from "react";
 const Game = ({ gameId, home, away, setMessage, history }) => {
   const requestTeamDate = async (teamId) => {
-    const {
-      isSelected,
-      homeTeamData,
-      awayTeamData,
-    } = await dummyFetchSelectedGame(teamId, false);
+    const { isSelected, homeTeamData, awayTeamData } = await getGameData(
+      gameId,
+      teamId
+    );
+
     if (isSelected) {
       setMessage(MESSAGE.ALREADY_SELECTED);
     } else {

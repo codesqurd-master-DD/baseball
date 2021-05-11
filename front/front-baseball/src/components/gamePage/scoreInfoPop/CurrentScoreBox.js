@@ -1,7 +1,8 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useState } from "react";
+import styled, { keyframes, css } from "styled-components";
 const INNING_COUNT = Array.from({ length: 12 }, (_, i) => i + 1);
 function CurrentScoreBox() {
+  const [show, setShow] = useState(true);
   const renderRow = (teamname, scores, result, isPlayer = false) => {
     return (
       <Row>
@@ -34,10 +35,13 @@ function CurrentScoreBox() {
   return (
     <CurrentScoreBoxWrapper
       onClick={(e) => {
-        console.log(e.target);
+        if (e.target === e.currentTarget) {
+          setShow(false);
+        }
       }}
+      show={show}
     >
-      <ScoreBox>
+      <ScoreBox show={show}>
         {renderRow("", INNING_COUNT, "R")}
         <hr />
         {renderRow("Captain", [1, 0, 0, 2], 3, true)}
@@ -46,27 +50,44 @@ function CurrentScoreBox() {
     </CurrentScoreBoxWrapper>
   );
 }
-const show = keyframes`
-    0%{
-        transform : translateY(-100%)
+const slideDown = keyframes`
+    from{
+        transform : translateY(-150%)
     }
-    100%{
-        transfrom : translateY(0)
+    to{
+        transform : translateY(0)
     }
 `;
+const slideUp = keyframes`
+    from{
+        transform : translateY(0)
+    }
+    to{
+        transform : translateY(-150%)
+    }
+`;
+
 const fadeIn = keyframes`
-    0%{
+    from{
         background: rgba(0, 0, 0, 0);
     }
-    100%{
-        background: rgba(0, 0, 0, 0.7);
+    to{
+        background: rgba(0, 0, 0, .7);
+    }
+`;
+const fadeOut = keyframes`
+    from{
+        background: rgba(0, 0, 0, .7);
+    }
+    to{
+        background: rgba(0, 0, 0, 0);
     }
 `;
 const CurrentScoreBoxWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding-top: 2rem;
-  animation: ${fadeIn} 2s forwards;
+  animation: ${({ show }) => (show ? fadeIn : fadeOut)} 1.5s forwards cubic-bezier(0.33, 1, 0.68, 1);
   text-align: center;
 `;
 
@@ -77,7 +98,7 @@ const ScoreBox = styled.div`
   padding: 2rem 7rem;
   color: white;
   font-size: 2rem;
-  animation: ${show} 1s;
+  animation: ${({ show }) => (show ? slideDown : slideUp)} 1.5s forwards cubic-bezier(0.33, 1, 0.68, 1);
 `;
 const Row = styled.div`
   display: flex;

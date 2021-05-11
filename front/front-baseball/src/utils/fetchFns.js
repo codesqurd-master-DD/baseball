@@ -14,6 +14,12 @@ export const getGames = async (index) => {
   return result.response;
 };
 
+export const getGameData = async (gameId, teamId) => {
+  const result = await request(
+    `game/selected?gameId=${gameId}&teamId=${teamId}`
+  );
+  return result.response;
+};
 export const dummyFetchGames = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
