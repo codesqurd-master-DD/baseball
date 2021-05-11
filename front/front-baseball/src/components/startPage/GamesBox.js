@@ -15,7 +15,6 @@ const GamesBox = ({ history }) => {
   const targetRef = useRef();
   const isInitial = useRef(true);
   const gamesIndex = useRef(1);
-  const last = useRef(false);
   const requestNewGames = useCallback(async () => {
     try {
       setLoading(true);
