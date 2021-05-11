@@ -4,8 +4,8 @@ import StartPage from "./components/startPage/StartPage";
 
 function App() {
   return (<>
-     <StartPage />
+     {/* <StartPage /> */}
      <GameMainBox/>
     </>);
-
-
+}
+export default App; 
