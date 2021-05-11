@@ -67,27 +67,27 @@ const playerData = {
         {
             playerId: 7,
             playerNumber: 299,
-            playerName: "Lano",
+            playerName: "Lana",
         },
         {
             playerId: 8,
             playerNumber: 298,
-            playerName: "Lano",
+            playerName: "Lanb",
         },
         {
             playerId: 9,
             playerNumber: 300,
-            playerName: "Lano",
+            playerName: "Lanc",
         },
         {
             playerId: 10,
             playerNumber: 2313,
-            playerName: "Lano",
+            playerName: "Land",
         },
         {
             playerId: 11,
             playerNumber: 232,
-            playerName: "Lano",
+            playerName: "Lanx",
         },
         {
             playerId: 12,
@@ -181,9 +181,19 @@ const GameMainBox = () => {
     const [ourBatterIndex, setOurBatterIndex] = useState(0);
     const [homeBattersIndex, setHomeBattersIndex] = useState(0);
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
+
+    const [batterHistory, setBatterHistory] = useState([]);
+    const [changeState, setChangeState] = useState(0);
+
     const addPlayerIndex = () => {
-        if(awayBattersIndex >= 10) setAwayBattersIndex(0);
-        if(homeBattersIndex >= 10) setHomeBattersIndex(0);
+        console.log('home', homeBattersIndex);
+        console.log('away', awayBattersIndex);
+        if(awayBattersIndex >= 9) {
+            setAwayBattersIndex(0);
+        }
+        if(homeBattersIndex >= 9) {
+            setHomeBattersIndex(0);
+        } 
         if(isTop) setAwayBattersIndex(awayBattersIndex+1);
         if(!isTop) setHomeBattersIndex(homeBattersIndex+1);
     }
@@ -244,8 +254,11 @@ const GameMainBox = () => {
         // pitchArr[]
     }
     const addHits = () => {
-        if(hitsCnt === 0) setHitsCnt(hitsCnt + 1);
+        if(hitsCnt === 0) {
+            setHitsCnt(hitsCnt + 1);
+        }
         addPlayerIndex();
+        setChangeState(changeState +1);
     }
     const addStrike = () => {
         if(strikeCnt.length > 2) return;
@@ -267,10 +280,12 @@ const GameMainBox = () => {
             id: outCnt.length,
             value: 0
         }])
+        addPlayerIndex();
+        setChangeState(changeState + 1)
         setHitsCnt(0);
-        if(outCnt.length < 2) {
-            return addPlayerIndex();
-        }
+        // if(outCnt.length < 2) {
+        //     return addPlayerIndex();
+        // }
         if(outCnt.length === 2) {
             setTimeout(() => {
                 setTurn();
@@ -299,6 +314,7 @@ const GameMainBox = () => {
         }])
         if(ballCnt.length === 3) {
             addPlayerIndex();
+            setChangeState(changeState+1);
             setTimeout(() => {
                 setStrikeCnt([]);
                 setBallCnt([]);
@@ -306,23 +322,27 @@ const GameMainBox = () => {
             }, 500)
         }
     }
-
-
-        // let check = defaultPlayer;
-        // const setPlayer = () => {
-        //     let siteCnt = 1;
-        //     let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
-        //     let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
-        //     let batterArr = [batter, batterInfo];
-        //     const batterList = batterArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
-        //     return batterList;
-            
-        // }
-        const createBattersArr = () => {
+    const [homeHistory, setHomeHistory] = useState([]);
+    const [awayHistory, setAwayHistory] = useState([]);
+    const createBattersArr = () => {
             let siteCnt = 1;
             let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
             let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
             let batterArr = [batter, batterInfo];
+            // if(isTop) {
+            //     setAwayHistory([...awayHistory, {
+            //         id: awayHistory.length,
+            //         value: batterArr[0]
+            //     }]);
+            // }
+            // if(!isTop) {
+            //     setHomeHistory([...homeHistory, {
+            //         id: homeHistory.length,
+            //         value: batterArr[0]
+            //     }]);
+
+            // } 
+            // console.log(awayBattersHistory)
             return batterArr;
         }
         const createPitcherArr = () => {
@@ -332,6 +352,8 @@ const GameMainBox = () => {
             return pitcherArr;
         }
     useEffect(() => {
+        // console.log(setTeamIndex());
+        // if()
         if(pitchState) return;
         let Timer;
         if(!isDefense){
@@ -341,6 +363,33 @@ const GameMainBox = () => {
             clearTimeout(Timer);
         };
       });
+    //   useEffect(() => {
+    //     setHomeHistory([...homeHistory, {
+    //         id: homeHistory.length,
+    //         value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
+    //     }])
+    //     console.log(homeHistory);
+    //     // if()
+    //   }, [awayBattersIndex]);
+    //   useEffect(() => {
+    //     setAwayHistory([...awayHistory, {
+    //         id: awayHistory.length,
+    //         value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
+    //     }])
+    //     console.log(awayHistory);
+    //     // if()
+    //   }, [homeBattersIndex]);
+
+      useEffect(() => {
+          console.log(changeState)
+        setBatterHistory([...batterHistory, {
+            id: batterHistory.length,
+            cnt: setTeamIndex(),
+            value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
+        }])
+        console.log(awayHistory);
+        // if()
+      }, [changeState]);
     return (
         <GameContainer>
             <MatchContainer>
@@ -349,7 +398,7 @@ const GameMainBox = () => {
             </MatchContainer>
             <PlayerContainer>
                 <PlayerBox createBattersArr={createBattersArr} createPitcherArr={createPitcherArr} hitsCnt={hitsCnt} playerData={playerData}/>
-                <PlayerDetailBox />
+                <PlayerDetailBox batterHistory={batterHistory}/>
             </PlayerContainer>
         </GameContainer>
     );
