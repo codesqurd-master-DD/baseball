@@ -306,6 +306,31 @@ const GameMainBox = () => {
             }, 500)
         }
     }
+
+
+        // let check = defaultPlayer;
+        // const setPlayer = () => {
+        //     let siteCnt = 1;
+        //     let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
+        //     let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
+        //     let batterArr = [batter, batterInfo];
+        //     const batterList = batterArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
+        //     return batterList;
+            
+        // }
+        const createBattersArr = () => {
+            let siteCnt = 1;
+            let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
+            let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
+            let batterArr = [batter, batterInfo];
+            return batterArr;
+        }
+        const createPitcherArr = () => {
+            let pitchers = playerData[setPitcherTeam()].pitcher;
+            let pitNum = `#${pitchers.playerNumber}`
+            const pitcherArr = [pitchers.playerName, pitNum];
+            return pitcherArr;
+        }
     useEffect(() => {
         if(pitchState) return;
         let Timer;
@@ -323,7 +348,7 @@ const GameMainBox = () => {
                 <GroundBox isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
-                <PlayerBox setTeamIndex={setTeamIndex}setPitcherTeam={setPitcherTeam} setBattersTeam={setBattersTeam} ourBatterIndex={ourBatterIndex} hitsCnt={hitsCnt} playerData={playerData}/>
+                <PlayerBox createBattersArr={createBattersArr} createPitcherArr={createPitcherArr} hitsCnt={hitsCnt} playerData={playerData}/>
                 <PlayerDetailBox />
             </PlayerContainer>
         </GameContainer>

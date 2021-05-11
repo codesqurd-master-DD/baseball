@@ -30,24 +30,17 @@ margin-right: 20px;
 color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
-const PlayerBox = ({setTeamIndex, setPitcherTeam, setBattersTeam, playerData, hitsCnt, ourBatterIndex}) => {
+const PlayerBox = ({createBattersArr, createPitcherArr}) => {
 
     
     // let check = defaultPlayer;
     const setPlayer = () => {
-        let siteCnt = 1;
-        let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
-        let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
-        let batterArr = [batter, batterInfo];
-        const batterList = batterArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
+        const batterList = [createBattersArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
         return batterList;
         
     }
     const setPitcher = () => {
-        let pitchers = playerData[setPitcherTeam()].pitcher;
-        let pitNum = `#${pitchers.playerNumber}`
-        const pitcherArr = [pitchers.playerName, pitNum];
-        const pitcherList = pitcherArr.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
+        const pitcherList = [createPitcherArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
         return pitcherList;
     }
     return (
