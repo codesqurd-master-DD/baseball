@@ -7,10 +7,19 @@ height: 75%;
 /* background-color: red; */
 /* outline: 2px solid black; */
 `;
-const PlayerDetailBox = () => {
+const PlayerCard = styled.div``;
+const PlayerDetailBox = ({batterHistory}) => {
+    console.log(batterHistory)
+    const homeList = batterHistory.map((todo) => <div key={todo.id}>{todo.cnt+1}번 타자 {todo.value}</div>)
     return (
         <PlayerDetailContainer>
-dfwfwefwef
+            <PlayerCard>
+            <div>
+                {homeList}
+            </div>
+            <ul><li></li></ul>
+            </PlayerCard>
+
         </PlayerDetailContainer>
     );
 }
