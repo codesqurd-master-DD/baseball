@@ -183,16 +183,19 @@ const GameMainBox = () => {
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
 
     const [batterHistory, setBatterHistory] = useState([]);
+
+    const [turnState, setTurnState] = useState(0);
     const [changeState, setChangeState] = useState(0);
+
 
     const addPlayerIndex = () => {
         console.log('home', homeBattersIndex);
         console.log('away', awayBattersIndex);
         if(awayBattersIndex >= 9) {
-            setAwayBattersIndex(0);
+            setAwayBattersIndex(-1);
         }
         if(homeBattersIndex >= 9) {
-            setHomeBattersIndex(0);
+            setHomeBattersIndex(-1);
         } 
         if(isTop) setAwayBattersIndex(awayBattersIndex+1);
         if(!isTop) setHomeBattersIndex(homeBattersIndex+1);
@@ -258,6 +261,7 @@ const GameMainBox = () => {
             setHitsCnt(hitsCnt + 1);
         }
         addPlayerIndex();
+        setTurnState(turnState + 1);
         setChangeState(changeState +1);
     }
     const addStrike = () => {
@@ -281,6 +285,7 @@ const GameMainBox = () => {
             value: 0
         }])
         addPlayerIndex();
+        setTurnState(turnState + 1);
         setChangeState(changeState + 1)
         setHitsCnt(0);
         // if(outCnt.length < 2) {
@@ -295,6 +300,7 @@ const GameMainBox = () => {
         }
     }
     const setTurn = () => {
+        setTurnState(-1);
         setIsDefense(!isDefense);
         if(isDefense) {
             setPitchState(false);
@@ -314,6 +320,7 @@ const GameMainBox = () => {
         }])
         if(ballCnt.length === 3) {
             addPlayerIndex();
+            setTurnState(turnState + 1);
             setChangeState(changeState+1);
             setTimeout(() => {
                 setStrikeCnt([]);
@@ -384,7 +391,7 @@ const GameMainBox = () => {
           console.log(changeState)
         setBatterHistory([...batterHistory, {
             id: batterHistory.length,
-            cnt: setTeamIndex(),
+            cnt: turnState,
             value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
         }])
         console.log(awayHistory);
