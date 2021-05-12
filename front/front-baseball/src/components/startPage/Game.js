@@ -1,5 +1,36 @@
 import styled, { css } from "styled-components";
-const Game = ({ gameId, home, away }) => {
+import { getGameData } from "../../utils/fetchFns.js";
+import { MESSAGE } from "../../utils/constant.js";
+import React from "react";
+const Game = ({ gameId, home, away, setMessage, history, setLoading }) => {
+  const requestTeamDate = async (teamId) => {
+    try {
+      setLoading(true);
+      const response = await getGameData(gameId, teamId);
+      return response;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onSelectTeam = async (teamId) => {
+    const { isSelected, homeTeamData, awayTeamData } = await requestTeamDate(
+      teamId
+    );
+
+    if (isSelected) {
+      setMessage(MESSAGE.ALREADY_SELECTED);
+    } else {
+      history.push({
+        pathname: "/game",
+        state: {
+          homeTeamData,
+          awayTeamData,
+        },
+      });
+    }
+  };
   return (
     <GameWrapper>
       <GameTitle>GAME {gameId}</GameTitle>
@@ -8,7 +39,7 @@ const Game = ({ gameId, home, away }) => {
           selected={away.selected}
           onClick={() => {
             if (away.selected) return;
-            requestTeamDate(away.teamId);
+            onSelectTeam(away.teamId);
           }}
         >
           {away.teamName}
@@ -18,7 +49,7 @@ const Game = ({ gameId, home, away }) => {
           selected={home.selected}
           onClick={() => {
             if (home.selected) return;
-            requestTeamDate(home.teamId);
+            onSelectTeam(home.teamId);
           }}
         >
           {home.teamName}
@@ -27,86 +58,7 @@ const Game = ({ gameId, home, away }) => {
     </GameWrapper>
   );
 };
-const requestTeamDate = async (teamId) => {
-  const { isSelected, homeTeamData, awayTeamData } = await dummyFetchIsSelected(
-    teamId
-  );
-  if (isSelected) {
-    console.log("이미 선택된 팀");
-  } else {
-    console.log("선택 안 됨");
-    console.log(homeTeamData);
-    console.log(awayTeamData);
-  }
-};
-const dummyFetchIsSelected = (teamId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const randomBoolean = Math.random() < 0.5;
-      if (randomBoolean) {
-        resolve({
-          isSelected: true,
-        });
-      } else {
-        resolve({
-          isSelected: false,
-          homeTeamData: {
-            teamId: 1,
-            teamName: "Rockets",
-            pitcher: {
-              playerId: "player-0",
-              playerNumber: "number-0",
-              playerName: "류현진",
-            },
-            batters: [
-              {
-                playerId: "player-1",
-                playerNumber: "number-1",
-                playerName: "DD",
-              },
-              {
-                playerId: "player-2",
-                playerNumber: "number-2",
-                playerName: "Woody",
-              },
-              {
-                playerId: "player-2",
-                playerNumber: "number-2",
-                playerName: "Luke",
-              },
-            ],
-          },
-          awayTeamData: {
-            teamId: 2,
-            teamName: "Captain",
-            pitcher: {
-              playerId: "player-0",
-              playerNumber: "number-0",
-              playerName: "박찬호",
-            },
-            batters: [
-              {
-                playerId: "player-1",
-                playerNumber: "number-1",
-                playerName: "Q",
-              },
-              {
-                playerId: "player-2",
-                playerNumber: "number-2",
-                playerName: "Seong",
-              },
-              {
-                playerId: "player-3",
-                playerNumber: "number-4",
-                playerName: "Json",
-              },
-            ],
-          },
-        });
-      }
-    }, 1500);
-  });
-};
+
 const GameWrapper = styled.div`
   background-color: rgb(180, 180, 180);
   padding: 1rem 0;
@@ -142,4 +94,4 @@ const TeamName = styled.div`
         `}
 `;
 
-export default Game;
+export default React.memo(Game);

@@ -1,22 +1,9 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-
+import { FadeWrapper, SlideBox } from "../animation";
 const INNING_COUNT = Array.from({ length: 12 }, (_, i) => i + 1);
-const DUMMY = {
-  home: {
-    teamname: "captain",
-    scores: [1, 1, 2, 3],
-    total: 7,
-    playerPick: true,
-  },
-  away: {
-    teamname: "marvel",
-    scroes: [0, 0, 0],
-    playerPick: false,
-    total: 0,
-  },
-};
-
 function CurrentScoreBox() {
+  const [show, setShow] = useState(true);
   const renderRow = (teamname, scores, result, isPlayer = false) => {
     return (
       <Row>
@@ -32,30 +19,44 @@ function CurrentScoreBox() {
       </Row>
     );
   };
-
   const renderTeamName = (teamname, isPlayer = false) => {
     return (
       <TeamName>
         <div>{teamname}</div>
-        {isPlayer && <div>player</div>}
+        {isPlayer && (
+          <div
+            style={{ fontSize: "1.2rem", color: "red", marginTop: "0.3rem" }}
+          >
+            player
+          </div>
+        )}
       </TeamName>
     );
   };
-  const onAnimationEnd = () => {
-    console.log("test");
-    // i(!show) 현재 컴포넌트 삭제 setState 함수 받기
-  };
+  
   return (
-    <ScoreBox onAnimationEnd={onAnimationEnd}>
-      {renderRow("", INNING_COUNT, "R")}
-      <hr />
-      {renderRow("Captain", [1, 0, 0, 2], 3, true)}
-      {renderRow("Marvel", [0, 0, 2], 2)}
-    </ScoreBox>
+    <FadeWrapper
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          setShow(false);
+        }
+      }}
+      show={show}
+    >
+      <SlideBox show={show} from={-150} to={0}>
+        <ScoreBox>
+          {renderRow("", INNING_COUNT, "R")}
+          <hr />
+          {renderRow("Captain", [1, 0, 0, 2], 3, true)}
+          {renderRow("Marvel", [0, 0, 2], 2)}
+        </ScoreBox>
+      </SlideBox>
+    </FadeWrapper>
   );
 }
 
 const ScoreBox = styled.div`
+  display: inline-block;
   border: 2px solid white;
   margin: 0 auto;
   padding: 2rem 7rem;
@@ -69,11 +70,6 @@ const Row = styled.div`
 `;
 const TeamName = styled.div`
   min-width: 10rem;
-  & > div::nth-last-child() {
-    font-size: 1.2rem;
-    color: red;
-    margin-top: 0.3rem;
-  }
 `;
 const Scores = styled.div`
   flex: 1;
