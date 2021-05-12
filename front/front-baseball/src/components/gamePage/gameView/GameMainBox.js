@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import GroundBox from "./GroundBox";
@@ -336,20 +337,6 @@ const GameMainBox = () => {
             let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
             let batter = playerData[setBattersTeam()].batters[setTeamIndex()].playerName;
             let batterArr = [batter, batterInfo];
-            // if(isTop) {
-            //     setAwayHistory([...awayHistory, {
-            //         id: awayHistory.length,
-            //         value: batterArr[0]
-            //     }]);
-            // }
-            // if(!isTop) {
-            //     setHomeHistory([...homeHistory, {
-            //         id: homeHistory.length,
-            //         value: batterArr[0]
-            //     }]);
-
-            // } 
-            // console.log(awayBattersHistory)
             return batterArr;
         }
         const createPitcherArr = () => {
@@ -370,22 +357,6 @@ const GameMainBox = () => {
             clearTimeout(Timer);
         };
       });
-    //   useEffect(() => {
-    //     setHomeHistory([...homeHistory, {
-    //         id: homeHistory.length,
-    //         value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
-    //     }])
-    //     console.log(homeHistory);
-    //     // if()
-    //   }, [awayBattersIndex]);
-    //   useEffect(() => {
-    //     setAwayHistory([...awayHistory, {
-    //         id: awayHistory.length,
-    //         value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
-    //     }])
-    //     console.log(awayHistory);
-    //     // if()
-    //   }, [homeBattersIndex]);
 
       useEffect(() => {
           console.log(changeState)
@@ -395,7 +366,6 @@ const GameMainBox = () => {
             value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
         }])
         console.log(awayHistory);
-        // if()
       }, [changeState]);
     return (
         <GameContainer>

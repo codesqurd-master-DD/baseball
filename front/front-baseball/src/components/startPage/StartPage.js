@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import MenuBox from "./MenuBox";
-const StartPage = () => {
+import GamesBox from "./GamesBox";
+
+const StartPage = ({ history }) => {
   return (
     <StartPageWrapper>
       <Title>BASEBALL GAME ONLINE</Title>
-      <MenuBox />
+      <GamesBox history={history} />
     </StartPageWrapper>
   );
 };
