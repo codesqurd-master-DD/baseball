@@ -1,63 +1,75 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { MESSAGE } from "../../utils/constant.js";
-import Game from "./Game";
 import { useInfiniteScroll } from "../../utils/hooks.js";
+import { dummyFetchGames, getGames } from "../../utils/fetchFns.js";
 
-const MenuBox = () => {
-  const [games, setGames] = useState([]);
+import Game from "./Game";
+
+const GamesBox = ({ history }) => {
+  const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState([MESSAGE.INIT]);
   const rootRef = useRef();
   const targetRef = useRef();
-
+  const isInitial = useRef(true);
+  const gamesIndex = useRef(1);
   const requestNewGames = useCallback(async () => {
     try {
       setLoading(true);
-      const games = await dummyFetchGames();
-      return games;
+      const newGames = await getGames(gamesIndex.current);
+      gamesIndex.current++;
+      return newGames;
     } catch (e) {
       setError(e);
     } finally {
       setLoading(false);
     }
+  }, [setLoading, setError]);
+
+  const initialGameList = useCallback(async () => {
+    const newGames = await requestNewGames();
+    setGameList(newGames);
   }, []);
 
-  const initLoad = useCallback(async () => {
+  const loadMoreGames = useCallback(async () => {
     const newGames = await requestNewGames();
-    setGames(newGames);
-  }, [requestNewGames]);
-
-  const loadMoreImage = useCallback(async () => {
-    const newGames = await requestNewGames();
-    setGames((games) => [...games, ...newGames]);
-  }, [requestNewGames]);
+    if (newGames.length === 0) setError(true);
+    setGameList((games) => [...games, ...newGames]);
+  }, []);
 
   useInfiniteScroll({
     root: rootRef.current,
     target: targetRef.current,
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !loading) {
-        loadMoreImage();
+      if (isIntersecting && !loading && !error) {
+        loadMoreGames();
       }
     },
   });
 
   useEffect(() => {
-    if (games.length < 1) {
-      initLoad();
+    if (isInitial.current) {
+      isInitial.current = false;
+      initialGameList();
     }
-  });
+  }, []);
 
   return (
     <MenuWrapper>
-      <MessageBox>{MESSAGE.INIT}</MessageBox>
+      <MessageBox>{message}</MessageBox>
       <GamesContainer>
         <Games ref={rootRef}>
-          {games.map((game) => (
-            <Game {...game} />
+          {gameList.map((game) => (
+            <Game
+              {...game}
+              history={history}
+              setMessage={setMessage}
+              key={game.gameId}
+            />
           ))}
-          <div ref={targetRef}>{error && <ErrorView />}</div>
+          <div ref={targetRef}>{error && <ErrorView>끝!!</ErrorView>}</div>
         </Games>
         {loading && (
           <LoadingView>
@@ -69,57 +81,15 @@ const MenuBox = () => {
   );
 };
 
-const dummyFetchGames = () => {
-  const data = {
-    games: [
-      {
-        gameId: 1,
-        home: {
-          teamId: "team-1",
-          teamName: "Captin",
-          selected: false,
-        },
-        away: {
-          teamId: "team-2",
-          teamName: "Mavel",
-          selected: false,
-        },
-      },
-      {
-        gameId: 2,
-        home: {
-          teamId: "team-3",
-          teamName: "Twins",
-          selected: false,
-        },
-        away: {
-          teamId: "team-4",
-          teamName: "Tigers",
-          selected: true,
-        },
-      },
-      {
-        gameId: 3,
-        home: {
-          teamId: "team-5",
-          teamName: "Rockets",
-          selected: false,
-        },
-        away: {
-          teamId: "team-6",
-          teamName: "Dodgers",
-          selected: false,
-        },
-      },
-    ],
-  };
+const rotate = keyframes`
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg)
+  }
+`;
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(data.games);
-    }, 2000);
-  });
-};
 const LoadingView = styled.div`
   display: flex;
   align-items: center;
@@ -132,15 +102,6 @@ const LoadingView = styled.div`
   height: 500px;
 `;
 
-const bounce = keyframes`
-  0% {
-    transform: rotate(0deg)
-  }
-  100% {
-    transform: rotate(360deg)
-  }
-`;
-
 const LoadingCircle = styled.div`
   background-color: transparent;
   border: 10px solid transparent;
@@ -148,7 +109,7 @@ const LoadingCircle = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  animation: ${bounce} 1s infinite linear;
+  animation: ${rotate} 1s infinite linear;
 `;
 const ErrorView = styled.div``;
 const MenuWrapper = styled.div`
@@ -175,4 +136,4 @@ const Games = styled.div`
     display: none;
   }
 `;
-export default MenuBox;
+export default GamesBox;
