@@ -2,10 +2,20 @@ import styled, { css } from "styled-components";
 import { getGameData } from "../../utils/fetchFns.js";
 import { MESSAGE } from "../../utils/constant.js";
 import React from "react";
-const Game = ({ gameId, home, away, setMessage, history }) => {
+const Game = ({ gameId, home, away, setMessage, history, setLoading }) => {
   const requestTeamDate = async (teamId) => {
-    const { isSelected, homeTeamData, awayTeamData } = await getGameData(
-      gameId,
+    try {
+      setLoading(true);
+      const response = await getGameData(gameId, teamId);
+      return response;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onSelectTeam = async (teamId) => {
+    const { isSelected, homeTeamData, awayTeamData } = await requestTeamDate(
       teamId
     );
 
@@ -29,7 +39,7 @@ const Game = ({ gameId, home, away, setMessage, history }) => {
           selected={away.selected}
           onClick={() => {
             if (away.selected) return;
-            requestTeamDate(away.teamId);
+            onSelectTeam(away.teamId);
           }}
         >
           {away.teamName}
@@ -39,7 +49,7 @@ const Game = ({ gameId, home, away, setMessage, history }) => {
           selected={home.selected}
           onClick={() => {
             if (home.selected) return;
-            requestTeamDate(home.teamId);
+            onSelectTeam(home.teamId);
           }}
         >
           {home.teamName}
