@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import GroundBox from "./GroundBox";
@@ -175,11 +174,10 @@ const GameMainBox = () => {
     // 루수에대한 배열 상태 -> 4개의 배열상태를 만들어 최신화 하면서 마지막 배열이 1일때 카운터 증가
     const [basemanSate, setBasemanState] = useState([]);
     // 내가 선택한 팀의 스코어 증가 -> 막배열 1이면 1증가
-    const [ourTeamState, setOurTeamState] = useState(0);
+    const [homeScore, setHomeScore] = useState([]);
     // 상대팀 스코어 증가 -> -> 막 배열 1이면 증가
-    const [opponentTeamState, setOpponentTeamState] = useState(0);
+    const [awayScore, setAwayScore] = useState([]);
     // 타자의 인덱스 상태 -> 
-    const [ourBatterIndex, setOurBatterIndex] = useState(0);
     const [homeBattersIndex, setHomeBattersIndex] = useState(0);
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
 
@@ -190,13 +188,12 @@ const GameMainBox = () => {
 
 
     const addPlayerIndex = () => {
-        console.log('home', homeBattersIndex);
-        console.log('away', awayBattersIndex);
+        setHitsCnt(0)
         if(awayBattersIndex >= 9) {
-            setAwayBattersIndex(-1);
+            setAwayBattersIndex(0);
         }
         if(homeBattersIndex >= 9) {
-            setHomeBattersIndex(-1);
+            setHomeBattersIndex(0);
         } 
         if(isTop) setAwayBattersIndex(awayBattersIndex+1);
         if(!isTop) setHomeBattersIndex(homeBattersIndex+1);
@@ -214,6 +211,12 @@ const GameMainBox = () => {
     const [ballCnt, setBallCnt] = useState([]);
     const [outCnt, setOutCnt] = useState([]);
 
+    const [ballCount, setBallCount] = useState(0);
+    const [ballHistory, setBallHistory] = useState([]);
+
+
+    const [SBHistory, setSBHistory] = useState([]);
+
     const [pitchState, setPitchState] = useState(true);
     const ConvertPosition = () => {
         setPitchState(!pitchState);
@@ -223,11 +226,7 @@ const GameMainBox = () => {
         if(playerData.awayTeamData.selected) {
             setPitchState(false);
             setIsDefense(false);
-            return playOffense();
         }
-    }
-    const playOffense = () => {
-        // setInterval(() => createPitchResult(), 3000);
     }
     const [isDefense, setIsDefense] = useState(true);
     // 초기 셋팅 값 다음의 회차 업데이트 작성 
@@ -247,20 +246,20 @@ const GameMainBox = () => {
         }
         switch(CreateBallCount()) {
             case 'Strike':
-                return addStrike();
+                addStrike();
+                return setBallCount(ballCount+1)
             case 'Ball':
-                return addBall();
+                addBall();
+                return setBallCount(ballCount+1)
             case 'Hits':
-                return addHits();
+                addHits();
+                return setBallCount(ballCount+1)
             default:
                 throw new Error();
         }
-        // pitchArr[]
     }
     const addHits = () => {
-        if(hitsCnt === 0) {
-            setHitsCnt(hitsCnt + 1);
-        }
+        setHitsCnt(hitsCnt + 1);
         addPlayerIndex();
         setTurnState(turnState + 1);
         setChangeState(changeState +1);
@@ -271,6 +270,7 @@ const GameMainBox = () => {
             id: strikeCnt.length,
             value: 0
         }])
+        setSBHistory([...SBHistory, '스트라이크']);
         if(strikeCnt.length === 2) {
             setTimeout(() => {
                 setBallCnt([]);
@@ -289,9 +289,6 @@ const GameMainBox = () => {
         setTurnState(turnState + 1);
         setChangeState(changeState + 1)
         setHitsCnt(0);
-        // if(outCnt.length < 2) {
-        //     return addPlayerIndex();
-        // }
         if(outCnt.length === 2) {
             setTimeout(() => {
                 setTurn();
@@ -305,7 +302,6 @@ const GameMainBox = () => {
         setIsDefense(!isDefense);
         if(isDefense) {
             setPitchState(false);
-            // playOffense();
         }
         if(!isDefense) {
             setPitchState(true);
@@ -319,6 +315,7 @@ const GameMainBox = () => {
             id: ballCnt.length,
             value: 0
         }])
+        setSBHistory([...SBHistory, '볼'])
         if(ballCnt.length === 3) {
             addPlayerIndex();
             setTurnState(turnState + 1);
@@ -330,8 +327,7 @@ const GameMainBox = () => {
             }, 500)
         }
     }
-    const [homeHistory, setHomeHistory] = useState([]);
-    const [awayHistory, setAwayHistory] = useState([]);
+    const [allHistory, setAllHistory] = useState([]);
     const createBattersArr = () => {
             let siteCnt = 1;
             let batterInfo = `${siteCnt}타석 ${hitsCnt}안타`;
@@ -346,8 +342,6 @@ const GameMainBox = () => {
             return pitcherArr;
         }
     useEffect(() => {
-        // console.log(setTeamIndex());
-        // if()
         if(pitchState) return;
         let Timer;
         if(!isDefense){
@@ -356,26 +350,40 @@ const GameMainBox = () => {
         return () => {
             clearTimeout(Timer);
         };
-      });
+    });
 
-      useEffect(() => {
-          console.log(changeState)
+    useEffect(() => {
+        setBallHistory([...ballHistory, {
+            id: ballHistory.length,
+            strike: strikeCnt.length,
+            ball: ballCnt.length,
+            value: SBHistory[SBHistory.length-1]
+        }])
+    }, [ballCount]);
+    
+    useEffect(() => {
+        setBasemanState([...basemanSate, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber]
+
+        )
+        setAllHistory([...allHistory, [
+        ballHistory
+        ]])
+        setBallHistory([]);
         setBatterHistory([...batterHistory, {
             id: batterHistory.length,
             cnt: turnState,
             value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
         }])
-        console.log(awayHistory);
-      }, [changeState]);
+    }, [changeState]);
     return (
         <GameContainer>
             <MatchContainer>
-                <ScoreBox opponentTeamState={opponentTeamState}/>
+                <ScoreBox />
                 <GroundBox isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
                 <PlayerBox createBattersArr={createBattersArr} createPitcherArr={createPitcherArr} hitsCnt={hitsCnt} playerData={playerData}/>
-                <PlayerDetailBox batterHistory={batterHistory}/>
+                <PlayerDetailBox allHistory={allHistory} ballHistory={ballHistory} batterHistory={batterHistory}/>
             </PlayerContainer>
         </GameContainer>
     );

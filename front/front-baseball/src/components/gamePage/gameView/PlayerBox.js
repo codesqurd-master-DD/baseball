@@ -23,7 +23,6 @@ font-size: 1.5em;
 display:flex;
 list-style:none;
 border: 1px solid red;
-/* margin: 0; */
 `;
 const PlayerList = styled.li`
 margin-right: 20px;
@@ -31,9 +30,7 @@ color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
 const PlayerBox = ({createBattersArr, createPitcherArr}) => {
-
     
-    // let check = defaultPlayer;
     const setPlayer = () => {
         const batterList = [createBattersArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
         return batterList;
