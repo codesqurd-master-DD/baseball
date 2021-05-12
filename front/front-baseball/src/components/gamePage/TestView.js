@@ -5,7 +5,7 @@ import PlayerList from "./playerDtailInfoPop/PlayerList";
 import CurrentScoreBox from "./scoreInfoPop/CurrentScoreBox";
 
 function TestView() {
-  const [test] = useState(false);
+  const [test] = useState(true);
   return (
     <TestWrapper>
       {test ? (
