@@ -1,16 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { MESSAGE } from "../../utils/constant.js";
 import { useInfiniteScroll } from "../../utils/hooks.js";
-import { dummyFetchGames, getGames } from "../../utils/fetchFns.js";
+import { MESSAGE } from "../../utils/constant.js";
+import { getGames } from "../../utils/fetchFns.js";
 
 import Game from "./Game";
 
 const GamesBox = ({ history }) => {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState([MESSAGE.INIT]);
+  const [isLastGames, setIsLastGames] = useState(false);
+  const [message, setMessage] = useState(MESSAGE.PLEASE_SELECT);
   const rootRef = useRef();
   const targetRef = useRef();
   const isInitial = useRef(true);
@@ -22,28 +22,31 @@ const GamesBox = ({ history }) => {
       gamesIndex.current++;
       return newGames;
     } catch (e) {
-      setError(e);
+      setIsLastGames(e);
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setError]);
+  }, [setLoading, setIsLastGames]);
 
   const initialGameList = useCallback(async () => {
     const newGames = await requestNewGames();
     setGameList(newGames);
-  }, []);
+  }, [requestNewGames]);
 
   const loadMoreGames = useCallback(async () => {
     const newGames = await requestNewGames();
-    if (newGames.length === 0) setError(true);
+    if (newGames.length === 0) {
+      setIsLastGames(true);
+      setMessage(MESSAGE.NO_MORE_GAMES);
+    }
     setGameList((games) => [...games, ...newGames]);
-  }, []);
+  }, [requestNewGames]);
 
   useInfiniteScroll({
     root: rootRef.current,
     target: targetRef.current,
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !loading && !error) {
+      if (isIntersecting && !loading && !isLastGames) {
         loadMoreGames();
       }
     },
@@ -54,7 +57,16 @@ const GamesBox = ({ history }) => {
       isInitial.current = false;
       initialGameList();
     }
-  }, []);
+    let timerNoMore;
+    if (message === MESSAGE.NO_MORE_GAMES) {
+      timerNoMore = setTimeout(() => {
+        setMessage(MESSAGE.PLEASE_SELECT);
+      }, 1000);
+    }
+    return () => {
+      clearTimeout(timerNoMore);
+    };
+  }, [message, initialGameList]);
 
   return (
     <MenuWrapper>
@@ -69,12 +81,12 @@ const GamesBox = ({ history }) => {
               key={game.gameId}
             />
           ))}
-          <div ref={targetRef}>{error && <ErrorView>끝!!</ErrorView>}</div>
+          <div ref={targetRef}></div>
         </Games>
         {loading && (
-          <LoadingView>
+          <MessageView>
             <LoadingCircle />
-          </LoadingView>
+          </MessageView>
         )}
       </GamesContainer>
     </MenuWrapper>
@@ -90,7 +102,7 @@ const rotate = keyframes`
   }
 `;
 
-const LoadingView = styled.div`
+const MessageView = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +123,7 @@ const LoadingCircle = styled.div`
   border-radius: 100px;
   animation: ${rotate} 1s infinite linear;
 `;
-const ErrorView = styled.div``;
+
 const MenuWrapper = styled.div`
   margin-top: 1rem;
   width: 30%;
