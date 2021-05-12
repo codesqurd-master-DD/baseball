@@ -178,7 +178,6 @@ const GameMainBox = () => {
     // 상대팀 스코어 증가 -> -> 막 배열 1이면 증가
     const [awayScore, setAwayScore] = useState([]);
     // 타자의 인덱스 상태 -> 
-    const [ourBatterIndex, setOurBatterIndex] = useState(0);
     const [homeBattersIndex, setHomeBattersIndex] = useState(0);
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
 
@@ -189,8 +188,6 @@ const GameMainBox = () => {
 
 
     const addPlayerIndex = () => {
-        // console.log('home', homeBattersIndex);
-        // console.log('away', awayBattersIndex);
         setHitsCnt(0)
         if(awayBattersIndex >= 9) {
             setAwayBattersIndex(0);
@@ -229,11 +226,7 @@ const GameMainBox = () => {
         if(playerData.awayTeamData.selected) {
             setPitchState(false);
             setIsDefense(false);
-            return playOffense();
         }
-    }
-    const playOffense = () => {
-        // setInterval(() => createPitchResult(), 3000);
     }
     const [isDefense, setIsDefense] = useState(true);
     // 초기 셋팅 값 다음의 회차 업데이트 작성 
@@ -264,14 +257,10 @@ const GameMainBox = () => {
             default:
                 throw new Error();
         }
-        // pitchArr[]
     }
     const addHits = () => {
-        // if(hitsCnt === 0) {
-            setHitsCnt(hitsCnt + 1);
-        // }
+        setHitsCnt(hitsCnt + 1);
         addPlayerIndex();
-        // setBallCount(ballCount+1);
         setTurnState(turnState + 1);
         setChangeState(changeState +1);
     }
@@ -282,7 +271,6 @@ const GameMainBox = () => {
             value: 0
         }])
         setSBHistory([...SBHistory, '스트라이크']);
-        // setBallCount(ballCount+1);
         if(strikeCnt.length === 2) {
             setTimeout(() => {
                 setBallCnt([]);
@@ -298,13 +286,9 @@ const GameMainBox = () => {
             value: 0
         }])
         addPlayerIndex();
-        // setBallCount(ballCount+1);
         setTurnState(turnState + 1);
         setChangeState(changeState + 1)
         setHitsCnt(0);
-        // if(outCnt.length < 2) {
-        //     return addPlayerIndex();
-        // }
         if(outCnt.length === 2) {
             setTimeout(() => {
                 setTurn();
@@ -318,7 +302,6 @@ const GameMainBox = () => {
         setIsDefense(!isDefense);
         if(isDefense) {
             setPitchState(false);
-            // playOffense();
         }
         if(!isDefense) {
             setPitchState(true);
@@ -333,10 +316,8 @@ const GameMainBox = () => {
             value: 0
         }])
         setSBHistory([...SBHistory, '볼'])
-        // setBallCount(ballCount+1);
         if(ballCnt.length === 3) {
             addPlayerIndex();
-            // setBallCount(ballCount+1);
             setTurnState(turnState + 1);
             setChangeState(changeState+1);
             setTimeout(() => {
@@ -346,8 +327,6 @@ const GameMainBox = () => {
             }, 500)
         }
     }
-    const [homeHistory, setHomeHistory] = useState([]);
-    const [awayHistory, setAwayHistory] = useState([]);
     const [allHistory, setAllHistory] = useState([]);
     const createBattersArr = () => {
             let siteCnt = 1;
@@ -363,13 +342,6 @@ const GameMainBox = () => {
             return pitcherArr;
         }
     useEffect(() => {
-        // console.log("s",strikeCnt.length);
-        // console.log("b", ballCnt.length);
-        // console.log("o", outCnt.length);
-        // console.log(setTeamIndex());
-        // if()
-
-
         if(pitchState) return;
         let Timer;
         if(!isDefense){
@@ -381,9 +353,6 @@ const GameMainBox = () => {
     });
 
     useEffect(() => {
-          console.log('SB', SBHistory)
-          console.log("볼카운트히스토리",ballHistory)
-        //   console.log(ballCount)
         setBallHistory([...ballHistory, {
             id: ballHistory.length,
             strike: strikeCnt.length,
@@ -393,8 +362,6 @@ const GameMainBox = () => {
     }, [ballCount]);
     
     useEffect(() => {
-        //   console.log('인덱스',setTeamIndex());
-        console.log('루수',basemanSate)
         setBasemanState([...basemanSate, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber]
 
         )
