@@ -78,6 +78,7 @@ const GamesBox = ({ history }) => {
               {...game}
               history={history}
               setMessage={setMessage}
+              setLoading={setLoading}
               key={game.gameId}
             />
           ))}
