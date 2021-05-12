@@ -1,6 +1,9 @@
 package com.team20.baseball.domain.game;
 
+import org.springframework.data.annotation.Id;
+
 public class Game {
+    @Id
     private Long id;
     private Long homeId;
     private Long awayId;

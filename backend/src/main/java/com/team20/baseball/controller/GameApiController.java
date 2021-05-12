@@ -1,14 +1,8 @@
 package com.team20.baseball.controller;
 
 import com.team20.baseball.application.GameService;
-import com.team20.baseball.dto.GameResponse;
 import com.team20.baseball.dto.PagingRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/game")
@@ -29,5 +23,10 @@ public class GameApiController {
     public ApiResponse list(@PathVariable int offset) {
         return ApiResponse.OK(
                 gameService.gameList(PagingRequest.of(offset)));
+    }
+
+    @GetMapping("/selected")
+    public ApiResponse isSelected(@RequestParam Long gameId, @RequestParam Long teamId) {
+        return ApiResponse.OK(gameService.matchDetail(gameId, teamId));
     }
 }

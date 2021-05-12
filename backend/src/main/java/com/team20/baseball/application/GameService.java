@@ -5,7 +5,9 @@ import com.team20.baseball.domain.game.GameRepository;
 import com.team20.baseball.domain.team.Team;
 import com.team20.baseball.domain.team.TeamRepository;
 import com.team20.baseball.dto.GameResponse;
+import com.team20.baseball.dto.MatchResponse;
 import com.team20.baseball.dto.PagingRequest;
+import com.team20.baseball.exception.TeamNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,8 +39,21 @@ public class GameService {
     }
 
     private GameResponse gameResponse(Game game) {
-        Team home = teamRepository.findById(game.getHomeId()).orElseThrow(IllegalArgumentException::new);
-        Team away = teamRepository.findById(game.getAwayId()).orElseThrow(IllegalArgumentException::new);
+        Team home = teamRepository.findById(game.getHomeId()).orElseThrow(() -> new TeamNotFoundException("Could not found home team"));
+        Team away = teamRepository.findById(game.getAwayId()).orElseThrow(() -> new TeamNotFoundException("Could not found home team"));
+
         return GameResponse.of(game, home, away);
     }
+
+    public MatchResponse matchDetail(Long gameId, Long teamId){
+        if (!gameRepository.isSelected(teamId)){
+            Game game = gameRepository.findById(gameId).orElseThrow(IllegalArgumentException::new);
+
+            Team home = teamRepository.findById(game.getHomeId()).orElseThrow(() -> new TeamNotFoundException("Could not found home team"));
+            Team away = teamRepository.findById(game.getAwayId()).orElseThrow(() -> new TeamNotFoundException("Could not found home team"));
+            return MatchResponse.of(home, away);
+        }
+        return MatchResponse.of();
+    }
+
 }
