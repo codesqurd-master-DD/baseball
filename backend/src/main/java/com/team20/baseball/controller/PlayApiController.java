@@ -1,5 +1,7 @@
 package com.team20.baseball.controller;
 
+import com.team20.baseball.application.PlayService;
+import com.team20.baseball.domain.play.InningRepository;
 import com.team20.baseball.dto.PitchRequest;
 import com.team20.baseball.dto.PlayResultRequest;
 import com.team20.baseball.dto.StartRequest;
@@ -11,9 +13,15 @@ import java.util.Collections;
 @RequestMapping(("/play"))
 public class PlayApiController {
 
+    private final PlayService playService;
+
+    public PlayApiController(PlayService playService) {
+        this.playService = playService;
+    }
+
     @PostMapping("/start")
     public ApiResponse start(@RequestBody StartRequest startRequest) {
-        return ApiResponse.OK(Collections.singletonMap("inningId", 1));
+        return ApiResponse.OK(Collections.singletonMap("inningId", playService.start(startRequest)));
     }
 
     @PutMapping("/result")
