@@ -23,9 +23,9 @@ padding: 10px;
 font-size: 5em;
 font-weight:700;
 `;
-const ScoreBox = ({opponentTeamState, outTeamSate}) => {
+const ScoreBox = ({awayScore, homeScore, opponentTeamState, outTeamSate}) => {
     const MatchInfoStr = () => {
-        return `Captain ${opponentTeamState} vs 5 Marvel`;
+        return `Captain ${awayScore} vs ${homeScore} Marvel`;
     }
     return (
         <ScoreCotainer>

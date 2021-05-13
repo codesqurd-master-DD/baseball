@@ -21,8 +21,8 @@ display:flex;
 flex-direction:column-reverse;
 `;
 const PlayerDetailBox = ({batterHistory, ballHistory, allHistory}) => {
-    console.log('올', allHistory);
-    console.log("sjsjsjs",ballHistory);
+    // console.log('올', allHistory);
+    // console.log("sjsjsjs",ballHistory);
     const detail = ballHistory.map((ballCount) => <li key={ballCount.id}>{ballCount.value} S{ballCount.strike} B{ballCount.ball}</li>)
     const homeList = batterHistory.map((todo) => 
     <div>
@@ -37,6 +37,7 @@ const PlayerDetailBox = ({batterHistory, ballHistory, allHistory}) => {
             <PlayerTitle>
                 {homeList}
             </PlayerTitle>
+            
 
             </PlayerCard>
 

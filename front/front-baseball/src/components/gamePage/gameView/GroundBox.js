@@ -7,7 +7,7 @@ height: 75%;
 `;
 const PitchBtn = styled.button`
     position:absolute;
-    top: 38%;
+    top: 30%;
     left: 39%;
     font-size:30px;
     margin-right: 20px;
@@ -70,6 +70,12 @@ float: right;
 font-size: 2em;
 padding: 20px;
 `;
+const BasemanCotainer = styled.div`
+position: absolute;
+/* display:flex;
+flex-direction:column-reverse;
+position:relative; */
+`;
 const GroundCotainer = styled.div`
 width: 800px;
 height: 800px;
@@ -82,9 +88,9 @@ position:absolute;
 /* margin: auto; */
 /* background:red; */
     top:10%;
-    left:18%;
-    width:500px;
-    height:500px;
+    left:25%;
+    width:400px;
+    height:400px;
     transform: rotate(45deg);
     border: 5px solid #7d7d7d;
 /* background: #7d7d7d; */
@@ -92,7 +98,7 @@ position:absolute;
 `;
 const BaseManOne = styled.div`
     position: absolute;
-    top:-6%;
+    top:-3%;
     left: 44%;
     background:white;
     width:80px;
@@ -101,8 +107,8 @@ const BaseManOne = styled.div`
 `;
 const BaseManTwo = styled.div`
 position: absolute;
-    top:36%;
-    /* left: ; */
+    top:30%;
+    left: 10%;
     background:white;
     width:80px;
     height:80px;
@@ -110,7 +116,7 @@ position: absolute;
 `;
 const BaseManThree = styled.div`
 position: absolute;
-    top:80%;
+    top:64%;
     left: 44%;
     background:white;
     width:80px;
@@ -127,24 +133,70 @@ background: white;
 `;
 const BaseManFour = styled.div`
 position: absolute;
-    top:36%;
-    left: 90%;
+    top:30%;
+    left: 80%;
     background:white;
     width:80px;
     height:80px;
     transform: rotate(45deg);
 `;
 
-const GroundBox = ({isDefense, decidePlaySequence, pitchState, ConvertPosition, playerData, createPitchResult, strikeCnt, ballCnt, outCnt, isTop, roundCount}) => {
+const BaseMainBox = styled.div`
+width: 70px;
+height: 70px;
+border-radius:50%;
+border: 3px solid blue;
+background: grey;
+color: black;
+font-weight: 800;
+font-size: 40px;
+padding-top: 15px;
+vertical-align:middle;
+text-align:center;
+/* position: absolute; */
+z-index: 2;
+margin-left: 180px;
+/* &:nth-child(1) {
+    left:33.6%;
+    top:35.5%;
+}
+&:nth-child(2) {
+    left:12%;
+    top:61%;
+}
+&:nth-child(3) {
+    left:33.5%;
+    top:87.5%;
+}
+&:nth-child(4) {
+    left:56.5%;
+    top:61%;
+} */
+`;
+const BasemanEach = styled.div`
+padding: 16px;
+`;
+const BasemanBox = styled.div`
+display:felx;
+`;
+const BasemanTitle = styled.div`
+position: absolute;
+font-size:40px;
+/* padding: 20px; */
+margin-left:20px;
+`;
 
+const GroundBox = ({awayBasemanState, checkScoreCount, isDefense, decidePlaySequence, pitchState, ConvertPosition, playerData, createPitchResult, strikeCnt, ballCnt, outCnt, isTop, roundCount}) => {
+    /* console.log('체크', awayBasemanState); */
 
-
+    const base = awayBasemanState.map((e, idx)=> (<BaseMainBox key={idx} active={idx}>{e}</BaseMainBox>));
     const strikeCount = strikeCnt.map(item => (<li key={item.id}><StrikeCircle></StrikeCircle></li>))
     const ballCount = ballCnt.map(item => (<li key={item.id}><BallCircle></BallCircle></li>))
     const outCount = outCnt.map(item => (<li key={item.id}><OutCircle></OutCircle></li>));
     const roundInfo = `${roundCount}회${isTop === true ? `초`:`말`} ${isDefense === true ? '수비': '공격'}`;
     return (
         <PlayCotainer>
+        
             <SBOState>
                 <StrikeView>
                     <StrikeList>S</StrikeList>
@@ -160,6 +212,15 @@ const GroundBox = ({isDefense, decidePlaySequence, pitchState, ConvertPosition, 
                 </OutView>
             </SBOState>
             <button onClick={ConvertPosition}>공수전환</button>
+            <BasemanBox>
+            <BasemanTitle>
+            <BasemanEach>1루수</BasemanEach>
+            <BasemanEach>2루수</BasemanEach>
+            <BasemanEach>3루수</BasemanEach>
+            <BasemanEach>4루수</BasemanEach>
+            </BasemanTitle>
+            <BasemanCotainer>{base}</BasemanCotainer>
+            </BasemanBox>
             <RoundView>
             {roundInfo}
             </RoundView>

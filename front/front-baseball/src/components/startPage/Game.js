@@ -27,6 +27,7 @@ const Game = ({ gameId, home, away, setMessage, history, setLoading }) => {
         state: {
           homeTeamData,
           awayTeamData,
+          selectedTeamId: teamId
         },
       });
     }

@@ -6,8 +6,9 @@ const POSITION = {
   top: -1,
   bottom: 1,
 };
-function Fade({ children, popupPosition }) {
+function Fade({ children, popupPosition, setPopup }) {
   const [show, setShow] = useState(true);
+  const onAnimationEnd = () => { if (!show) setPopup("none"); };
   return (
     <FadeWrapper
       show={show}
@@ -16,6 +17,7 @@ function Fade({ children, popupPosition }) {
           setShow(false);
         }
       }}
+      onAnimationEnd={onAnimationEnd}
     >
       <SlideBox show={show} popupPosition={popupPosition}>
         {children}
@@ -29,6 +31,7 @@ const FadeWrapper = styled.div`
   overflow: hidden;
   top: 0;
   bottom: 0;
+  z-index:9999;
   left: 0;
   right: 0;
   padding: 2rem 0;
