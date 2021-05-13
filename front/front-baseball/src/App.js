@@ -11,7 +11,7 @@ function App() {
         <Route path="/" component={StartPage} exact />
         <Route path="/game" component={GameMainBox} />
       </Switch>
-       <GameMainBox/>
+       {/* <GameMainBox/> */}
     </>
   );
 }

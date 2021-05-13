@@ -29,26 +29,24 @@ margin-right: 20px;
 color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
-const PlayerBox = ({createBattersArr, createPitcherArr}) => {
-    
-    const setPlayer = () => {
-        const batterList = [createBattersArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
-        return batterList;
-        
+const PlayerBox = ({batterHistory,createPitcherArr}) => {
+    let newObj = batterHistory[batterHistory.length-1];
+    let newPlayrInfo = [];
+    for(let value in newObj) {
+        if(value === 'hits') newPlayrInfo.push(`안타${newObj[value]}`);
+        if(value === 'value') newPlayrInfo.push(newObj[value])
     }
-    const setPitcher = () => {
-        const pitcherList = [createPitcherArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
-        return pitcherList;
-    }
+    const batterList = newPlayrInfo.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
+    const pitcherList = [createPitcherArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
     return (
         <PlayerContainer>
         <PitcherContainer>
             <PlayerTitle>투수</PlayerTitle>
-            <PlayerInfo>{setPitcher()}</PlayerInfo>
+            <PlayerInfo>{pitcherList}</PlayerInfo>
         </PitcherContainer>
         <BatterContainer>
         <PlayerTitle>타자</PlayerTitle>
-            <PlayerInfo>{setPlayer()}</PlayerInfo>
+            <PlayerInfo>{batterList}</PlayerInfo>
         </BatterContainer>
         </PlayerContainer>
     );

@@ -178,7 +178,7 @@ const GameMainBox = () => {
     // 상대팀 스코어 증가 -> -> 막 배열 1이면 증가
     const [awayScore, setAwayScore] = useState([]);
     // 타자의 인덱스 상태 -> 
-    const [homeBattersIndex, setHomeBattersIndex] = useState(0);
+    const [homeBattersIndex, setHomeBattersIndex] = useState(-1);
     const [awayBattersIndex, setAwayBattersIndex] = useState(0);
 
     const [batterHistory, setBatterHistory] = useState([]);
@@ -353,6 +353,7 @@ const GameMainBox = () => {
     });
 
     useEffect(() => {
+        console.log('난 볼카운터')
         setBallHistory([...ballHistory, {
             id: ballHistory.length,
             strike: strikeCnt.length,
@@ -362,6 +363,7 @@ const GameMainBox = () => {
     }, [ballCount]);
     
     useEffect(() => {
+        let site = 1;
         setBasemanState([...basemanSate, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber]
 
         )
@@ -372,7 +374,8 @@ const GameMainBox = () => {
         setBatterHistory([...batterHistory, {
             id: batterHistory.length,
             cnt: turnState,
-            value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName
+            value: playerData[setBattersTeam()].batters[setTeamIndex()].playerName,
+            hits: hitsCnt
         }])
     }, [changeState]);
     return (
@@ -382,7 +385,7 @@ const GameMainBox = () => {
                 <GroundBox isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>
-                <PlayerBox createBattersArr={createBattersArr} createPitcherArr={createPitcherArr} hitsCnt={hitsCnt} playerData={playerData}/>
+                <PlayerBox batterHistory={batterHistory} createBattersArr={createBattersArr} createPitcherArr={createPitcherArr} hitsCnt={hitsCnt} playerData={playerData}/>
                 <PlayerDetailBox allHistory={allHistory} ballHistory={ballHistory} batterHistory={batterHistory}/>
             </PlayerContainer>
         </GameContainer>

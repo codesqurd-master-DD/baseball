@@ -3,11 +3,12 @@ import styled from 'styled-components';
 const PlayCotainer = styled.div`
 width: 100%;
 height: 75%;
+/* position:relative; */
 `;
 const PitchBtn = styled.button`
     position:absolute;
-    top: 60%;
-    left: 35%;
+    top: 38%;
+    left: 39%;
     font-size:30px;
     margin-right: 20px;
     color:white;
@@ -16,7 +17,8 @@ const PitchBtn = styled.button`
     border: 5px solid white;
     padding: 0 20px;
     border-radius: 5px;
-`;
+    z-index:1;
+    `;
 const SBOState = styled.div`
 width: 30%;
 display:inline-block`;
@@ -68,6 +70,70 @@ float: right;
 font-size: 2em;
 padding: 20px;
 `;
+const GroundCotainer = styled.div`
+width: 800px;
+height: 800px;
+/* border: 3px solid white; */
+position: relative;
+margin: auto;
+`;
+const Ground = styled.div`
+position:absolute;
+/* margin: auto; */
+/* background:red; */
+    top:10%;
+    left:18%;
+    width:500px;
+    height:500px;
+    transform: rotate(45deg);
+    border: 5px solid #7d7d7d;
+/* background: #7d7d7d; */
+
+`;
+const BaseManOne = styled.div`
+    position: absolute;
+    top:-6%;
+    left: 44%;
+    background:white;
+    width:80px;
+    height:80px;
+    transform: rotate(45deg);
+`;
+const BaseManTwo = styled.div`
+position: absolute;
+    top:36%;
+    /* left: ; */
+    background:white;
+    width:80px;
+    height:80px;
+    transform: rotate(45deg);
+`;
+const BaseManThree = styled.div`
+position: absolute;
+    top:80%;
+    left: 44%;
+    background:white;
+    width:80px;
+    height:80px;
+    transform: rotate(45deg);
+`;
+const Bar = styled.div`
+position: absolute;
+top:85%;
+left:42%;
+width:111px;
+height: 120px;
+background: white;
+`;
+const BaseManFour = styled.div`
+position: absolute;
+    top:36%;
+    left: 90%;
+    background:white;
+    width:80px;
+    height:80px;
+    transform: rotate(45deg);
+`;
 
 const GroundBox = ({isDefense, decidePlaySequence, pitchState, ConvertPosition, playerData, createPitchResult, strikeCnt, ballCnt, outCnt, isTop, roundCount}) => {
 
@@ -93,11 +159,20 @@ const GroundBox = ({isDefense, decidePlaySequence, pitchState, ConvertPosition, 
                     {outCount}
                 </OutView>
             </SBOState>
-            {pitchState && <PitchBtn onClick={createPitchResult}>PITCH</PitchBtn> }
             <button onClick={ConvertPosition}>공수전환</button>
             <RoundView>
             {roundInfo}
             </RoundView>
+            <GroundCotainer>
+            {pitchState && <PitchBtn onClick={createPitchResult}>PITCH</PitchBtn> }
+            <Ground></Ground>
+            <BaseManOne>ddd</BaseManOne>
+            <BaseManTwo></BaseManTwo>
+            <BaseManThree></BaseManThree>
+            <Bar></Bar>
+            <BaseManFour></BaseManFour>
+
+            </GroundCotainer>
         </PlayCotainer>
     );
 }
