@@ -5,13 +5,13 @@ import com.team20.baseball.domain.play.Inning;
 public class StartRequest {
     private Long gameId;
     private Long inningNumber;
-    private Long pitcher;
+    private Long pitcherId;
     private boolean isTop;
 
-    public StartRequest(Long gameId, Long inningNumber, Long pitcher, boolean isTop) {
+    public StartRequest(Long gameId, Long inningNumber, Long pitcherId, boolean isTop) {
         this.gameId = gameId;
         this.inningNumber = inningNumber;
-        this.pitcher = pitcher;
+        this.pitcherId = pitcherId;
         this.isTop = isTop;
     }
 
@@ -23,8 +23,8 @@ public class StartRequest {
         return inningNumber;
     }
 
-    public Long getPitcher() {
-        return pitcher;
+    public Long getPitcherId() {
+        return pitcherId;
     }
 
     public boolean isTop() {
@@ -32,6 +32,6 @@ public class StartRequest {
     }
 
     public Inning toInning() {
-        return new Inning(this.gameId, this.inningNumber, this.pitcher, this.isTop);
+        return new Inning(this.gameId, this.inningNumber, this.pitcherId, this.isTop);
     }
 }
