@@ -8,15 +8,194 @@ import Fade from "../Fade";
 import CurrentScoreBox from "../scoreInfoPop/CurrentScoreBox";
 import PlayerList from "../playerDtailInfoPop/PlayerList";
 
+const playerData = {
+    selectedTeamId: 8,
+    homeTeamData: {
+        selected:true,
+        teamId: 8,
+        teamName: "Rockets",
+        pitcher: {
+        playerId: "player-0",
+        playerNumber: 51,
+        playerName: "류현진",
+        },
+    batters: [
+        {
+            playerId: 1,
+            playerNumber: 8,
+            playerName: "DD",
+        },
+        {
+            playerId: 2,
+            playerNumber: 22,
+            playerName: "Woody",
+        },
+        {
+            playerId: 3,
+            playerNumber: 23,
+            playerName: "Luke",
+        },
+        {
+            playerId: 4,
+            playerNumber: 38,
+            playerName: "json",
+        },
+        {
+            playerId: 5,
+            playerNumber: 25,
+            playerName: "kyle",
+        },
+        {
+            playerId: 6,
+            playerNumber: 29,
+            playerName: "Lano",
+        },
+        {
+            playerId: 7,
+            playerNumber: 299,
+            playerName: "Lana",
+        },
+        {
+            playerId: 8,
+            playerNumber: 298,
+            playerName: "Lanb",
+        },
+        {
+            playerId: 9,
+            playerNumber: 300,
+            playerName: "Lanc",
+        },
+        {
+            playerId: 10,
+            playerNumber: 2313,
+            playerName: "Land",
+        },
+        {
+            playerId: 11,
+            playerNumber: 232,
+            playerName: "Lanx",
+        },
+        {
+            playerId: 12,
+            playerNumber: 234,
+            playerName: "Lanu",
+        }
 
-const GameMainBox = ({location}) => {
-    console.log('로케',location)
-    const playerData = location.state;
-    const {homeTeamData, awayTeamData, selectedTeamId} = playerData
+    ],
+    },
+    awayTeamData: {
+        selected:false,
+        teamId: 7,
+        teamName: "Captain",
+        pitcher: {
+        playerId: 99,
+        playerNumber: 3,
+        playerName: "박찬호",
+        },
+    batters: [
+        {
+            playerId: 7,
+            playerNumber: 31,
+            playerName: "Seong",
+        },
+        {
+            playerId: 8,
+            playerNumber: 7,
+            playerName: "Goody",
+        },
+        {
+            playerId: 9,
+            playerNumber: 11,
+            playerName: "Adela",
+        },
+        {
+            playerId: 10,
+            playerNumber: 27,
+            playerName: "Daisy",
+        },
+        {
+            playerId: 11,
+            playerNumber: 5,
+            playerName: "Junami",
+        },
+        {
+            playerId: 12,
+            playerNumber: 2,
+            playerName: "eve",
+        },
+        {
+            playerId: 13,
+            playerNumber: 66,
+            playerName: "Dico",
+        },
+        {
+            playerId: 14,
+            playerNumber: 33,
+            playerName: "Neis",
+        },
+        {
+            playerId: 15,
+            playerNumber: 44,
+            playerName: "eamon",
+        },
+        {
+            playerId: 16,
+            playerNumber: 41,
+            playerName: "Junny",
+        },
+        {
+            playerId: 17,
+            playerNumber: 431,
+            playerName: "Crong",
+        },
+        {
+            playerId: 18,
+            playerNumber: 431,
+            playerName: "honux",
+        },
+    ],
+    }
+    }
+    const DUMMY = {
+        home: {
+          teamname: "captain",
+          scores: [],
+          total: 0,
+          playerPick: true,
+        },
+        away: {
+          teamname: "marvel",
+          scroes: [],
+          playerPick: false,
+          total: 0,
+        },
+      };
+
+
+const GameMainBox = () => {
+
+    // console.log('로케',location)
+    // const playerData = location.state;
+    const {homeTeamData, awayTeamData, selectedTeamId} = playerData;
+    // const {teamId} = 
+    let scoreData = {
+        home: {
+          teamname: `${homeTeamData.teamName}`,
+          playerPick: `${selectedTeamId === homeTeamData.teamId}`,
+        },
+        away: {
+          teamname: `${awayTeamData.teamName}`,
+          playerPick: `${selectedTeamId === awayTeamData.teamId}`,
+        },
+      };
+
 
     // 루수에대한 배열 상태 -> 4개의 배열상태를 만들어 최신화 하면서 마지막 배열이 1일때 카운터 증가
     const [awayBasemanState, setAwayBasemanState] = useState([]);
     const [homeBasemanState, setHomeBasemanState] = useState([]);
+
+    const [homeScoreArr, setHomeScoreArr] = useState([]);
+    const [awayScoreArr, setAwayScoreArr] = useState([]);
     // 내가 선택한 팀의 스코어 증가 -> 막배열 1이면 1증가
     const [homeScore, setHomeScore] = useState(0);
     // 상대팀 스코어 증가 -> -> 막 배열 1이면 증가
@@ -30,15 +209,17 @@ const GameMainBox = ({location}) => {
     const [turnState, setTurnState] = useState(0);
     const [changeState, setChangeState] = useState(0);
 
+    const [startState, setStartState] = useState(true);
+
 
     const addPlayerIndex = () => {
         // setHitsCnt(0)
-        if(awayBattersIndex >= 9) {
-            setAwayBattersIndex(0);
-        }
-        if(homeBattersIndex >= 9) {
-            setHomeBattersIndex(0);
-        } 
+        // if(awayBattersIndex >= 9) {
+        //     setAwayBattersIndex(0);
+        // }
+        // if(homeBattersIndex >= 9) {
+        //     setHomeBattersIndex(0);
+        // } 
         if(isTop) setAwayBattersIndex(awayBattersIndex+1);
         if(!isTop) setHomeBattersIndex(homeBattersIndex+1);
     }
@@ -66,18 +247,20 @@ const GameMainBox = ({location}) => {
 
     const [pitchState, setPitchState] = useState(true);
     const [popup, setPopup] = useState("none");
+    const [isHome, setIsHome] = useState(true);
     const ConvertPosition = () => {
         setPitchState(!pitchState);
     }
     // 첫 순서 결정
     const decidePlaySequence = () => {
         // consol
-        // if(playerData.awayTeamData.teamId === selectedTeamId) {
-        //     setPitchState(false);
-        //     setIsDefense(false);
-        // }
+        if(playerData.awayTeamData.teamId === selectedTeamId) {
+            setPitchState(false);
+            setIsDefense(false);
+        }
     }
     const [isDefense, setIsDefense] = useState(true);
+    const [inningCount, setInningCount] = useState(0);
     // 초기 셋팅 값 다음의 회차 업데이트 작성 
 
     
@@ -116,6 +299,9 @@ const GameMainBox = ({location}) => {
         setHitsCnt(hitsCnt + 1);
         addPlayerIndex();
         setTurnState(turnState + 1);
+        if(awayBasemanState.length >= 3) {
+            setInningCount(inningCount+1);
+        }
         setAwayBasemanState([...awayBasemanState, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber])
         setChangeState(changeState +1);
     }
@@ -143,6 +329,9 @@ const GameMainBox = ({location}) => {
 
         addPlayerIndex();
         setTurnState(turnState + 1);
+        if(awayBasemanState.length >= 3) {
+            setInningCount(inningCount+1);
+        }
         setAwayBasemanState([...awayBasemanState, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber])
         setChangeState(changeState + 1)
         // setHitsCnt(0);
@@ -156,6 +345,8 @@ const GameMainBox = ({location}) => {
         if(!isDefense) {
             setPitchState(true);
         }
+        if(!isTop) setHomeScoreArr([...homeScoreArr, inningCount]);
+        if(isTop) setAwayScoreArr([...awayScoreArr, inningCount]);
         setIsTop(!isTop);
 
         if(!isTop) setRoundCount(roundCount + 1);
@@ -170,6 +361,9 @@ const GameMainBox = ({location}) => {
         if(ballCnt.length === 3) {
             addPlayerIndex();
             setTurnState(turnState + 1);
+            if(awayBasemanState.length >= 3) {
+                setInningCount(inningCount+1);
+            }
             setAwayBasemanState([...awayBasemanState, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber])
             setChangeState(changeState+1);
             setTimeout(() => {
@@ -198,6 +392,14 @@ const GameMainBox = ({location}) => {
 
 
     useEffect(() => {
+        if(startState && playerData.awayTeamData.teamId === selectedTeamId){
+            // if(playerData.awayTeamData.teamId === selectedTeamId) {
+                setIsHome(false);
+                setPitchState(false);
+                setIsDefense(false);
+                setStartState(false);
+            // }
+        }
         if(pitchState) return;
         let Timer;
         if(!isDefense){
@@ -217,6 +419,31 @@ const GameMainBox = ({location}) => {
         }])
     }, [ballCount]);
 
+    useEffect(() => {
+        console.log("어래이정보",homeScoreArr, awayScoreArr)
+        let homeScoreTotal = homeScoreArr.reduce((acc, cur) => acc + cur, 0);
+        let awayScoreTotal = awayScoreArr.reduce((acc, cur) => acc + cur, 0);
+        scoreData = {
+            home: {
+              teamname: `${homeTeamData.teamName}`,
+              scores: homeScoreArr,
+              total: homeScoreTotal,
+              playerPick: `${selectedTeamId === homeTeamData.teamId}`,
+            },
+            away: {
+              teamname: `${awayTeamData.teamName}`,
+              scores: awayScoreArr,
+              total: awayScoreTotal,
+              playerPick: `${selectedTeamId === awayTeamData.teamId}`,
+            },
+          };
+        //   console.log(scoreData);
+        // if(!isTop) setHomeScoreArr([...homeScoreArr, inningCount]);
+        // if(isTop) setAwayScoreArr([...awayScoreArr, inningCount]);
+        setInningCount(0);
+        setAwayBasemanState([])
+    }, [isTop]);
+
 
     useEffect(() => {
         if(outCnt.length === 3) {
@@ -230,7 +457,12 @@ const GameMainBox = ({location}) => {
         let site = 1;
         // console.log('안타 카운터 확인', hitsCnt);
         console.log('초말확인',isTop);
-
+        if(awayBattersIndex >= 9) {
+            setAwayBattersIndex(0);
+        }
+        if(homeBattersIndex >= 9) {
+            setHomeBattersIndex(0);
+        } 
         // setAwayBasemanState([...awayBasemanState, playerData[setBattersTeam()].batters[setTeamIndex()].playerNumber])
         setAllHistory([...allHistory, [
         ballHistory
@@ -244,9 +476,11 @@ const GameMainBox = ({location}) => {
             hits: setHistAcc([...hitsAcc, hitsCnt])
         }])
         // setHitsCnt(0);
-        if(awayBasemanState.length >= 5) {
+        if(awayBasemanState.length >= 4) {
             if(isTop) setAwayScore(awayScore + 1);
             if(!isTop) setHomeScore(homeScore + 1);
+        }
+        if(awayBasemanState.length >= 5) {
             let getScore = [...awayBasemanState];
             getScore.splice(0,1);
             setAwayBasemanState(getScore);
@@ -277,7 +511,7 @@ const GameMainBox = ({location}) => {
       {popup === "top" ? (
         <Fade popupPosition={"top"} setPopup={setPopup}>
             {/* 스코어 */}
-          <CurrentScoreBox />
+          <CurrentScoreBox scoreData={scoreData} />
         </Fade>
       ) : popup === "bottom" ? (
         <Fade popupPosition={"bottom"} setPopup={setPopup}>
@@ -288,7 +522,7 @@ const GameMainBox = ({location}) => {
         ""
       )}
             <MatchContainer>
-                <ScoreBox awayScore={awayScore} homeScore={homeScore}/>
+                <ScoreBox isHome={isHome}awayScore={awayScore} homeScore={homeScore}/>
                 <GroundBox awayBasemanState={awayBasemanState} isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>

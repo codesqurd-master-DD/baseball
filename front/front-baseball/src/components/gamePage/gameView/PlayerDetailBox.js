@@ -22,14 +22,14 @@ flex-direction:column-reverse;
 `;
 const PlayerDetailBox = ({batterHistory, ballHistory, allHistory}) => {
     // console.log('올', allHistory);
-    // console.log("sjsjsjs",ballHistory);
+    console.log("sjsjsjs",ballHistory);
     const detail = ballHistory.map((ballCount) => <li key={ballCount.id}>{ballCount.value} S{ballCount.strike} B{ballCount.ball}</li>)
-    const homeList = batterHistory.map((todo) => 
-    <div>
+    const homeList = batterHistory.map((todo, idx) => 
+    <div key={idx}>
         <div key={todo.id}>
         {todo.cnt+1}번 타자 {todo.value}
         </div>
-            <DetailUl>{detail}</DetailUl>
+            <DetailUl>{detail}{allHistory[0]}</DetailUl>
     </div>)
     return (
         <PlayerDetailContainer>

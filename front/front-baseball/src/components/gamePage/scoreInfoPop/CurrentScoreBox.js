@@ -16,7 +16,7 @@ const DUMMY = {
   },
 };
 
-function CurrentScoreBox() {
+function CurrentScoreBox({scoreData}) {
   const renderRow = (teamname, scores, result, isPlayer = false) => {
     return (
       <Row>

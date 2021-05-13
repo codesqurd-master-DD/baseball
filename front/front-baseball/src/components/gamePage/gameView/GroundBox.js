@@ -217,7 +217,7 @@ const GroundBox = ({awayBasemanState, checkScoreCount, isDefense, decidePlaySequ
             <BasemanEach>1루수</BasemanEach>
             <BasemanEach>2루수</BasemanEach>
             <BasemanEach>3루수</BasemanEach>
-            <BasemanEach>4루수</BasemanEach>
+            <BasemanEach>홈인</BasemanEach>
             </BasemanTitle>
             <BasemanCotainer>{base}</BasemanCotainer>
             </BasemanBox>
