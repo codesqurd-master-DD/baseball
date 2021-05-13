@@ -1,7 +1,6 @@
 package com.team20.baseball.controller;
 
 import com.team20.baseball.application.PlayService;
-import com.team20.baseball.domain.play.InningRepository;
 import com.team20.baseball.dto.PitchRequest;
 import com.team20.baseball.dto.PlayResultRequest;
 import com.team20.baseball.dto.StartRequest;
@@ -31,6 +30,6 @@ public class PlayApiController {
 
     @PostMapping("/pitch")
     public ApiResponse pitch(@RequestBody PitchRequest pitchRequest) {
-        return ApiResponse.OK(pitchRequest);
+        return ApiResponse.OK(playService.pitch(pitchRequest));
     }
 }

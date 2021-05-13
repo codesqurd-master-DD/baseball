@@ -1,5 +1,7 @@
 package com.team20.baseball.dto;
 
+import com.team20.baseball.domain.play.PlayHistory;
+
 public class PitchRequest {
     private final Long batter;
     private final Long inningId;
@@ -21,5 +23,9 @@ public class PitchRequest {
 
     public Character getResult() {
         return result;
+    }
+
+    public PlayHistory toEntity(){
+        return new PlayHistory(batter, inningId, result);
     }
 }
