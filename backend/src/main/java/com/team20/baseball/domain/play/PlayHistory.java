@@ -1,20 +1,23 @@
 package com.team20.baseball.domain.play;
 
+import org.springframework.data.annotation.Id;
+
 public class PlayHistory {
 
+    @Id
     private Long id;
     private Long batter;
     private Long inningId;
-    private Character result;
+    private String result;
 
-    public PlayHistory(Long id, Long batter, Long inningId, Character result) {
+    public PlayHistory(Long id, Long batter, Long inningId, String result) {
         this.id = id;
         this.batter = batter;
         this.inningId = inningId;
         this.result = result;
     }
 
-    public PlayHistory(Long batter, Long inningId, Character result) {
+    public PlayHistory(Long batter, Long inningId, String result) {
         this(null, batter, inningId, result);
     }
 
@@ -30,7 +33,7 @@ public class PlayHistory {
         return inningId;
     }
 
-    public Character getResult() {
+    public String getResult() {
         return result;
     }
 }

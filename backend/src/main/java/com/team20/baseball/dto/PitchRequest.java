@@ -5,9 +5,9 @@ import com.team20.baseball.domain.play.PlayHistory;
 public class PitchRequest {
     private final Long batter;
     private final Long inningId;
-    private final Character result;
+    private final String result;
 
-    public PitchRequest(Long batter, Long inningId, Character result) {
+    public PitchRequest(Long batter, Long inningId, String result) {
         this.batter = batter;
         this.inningId = inningId;
         this.result = result;
@@ -21,11 +21,11 @@ public class PitchRequest {
         return inningId;
     }
 
-    public Character getResult() {
+    public String getResult() {
         return result;
     }
 
-    public PlayHistory toEntity(){
+    public PlayHistory toEntity() {
         return new PlayHistory(batter, inningId, result);
     }
 }
