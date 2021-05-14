@@ -25,6 +25,7 @@ public class PlayApiController {
 
     @PutMapping("/result")
     public ApiResponse result(@RequestBody PlayResultRequest playResultRequest) {
+        playService.result(playResultRequest);
         return ApiResponse.OK(playResultRequest);
     }
 
