@@ -1,6 +1,7 @@
 package com.team20.baseball.domain.play;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 public class Inning {
     @Id
@@ -14,6 +15,7 @@ public class Inning {
     private Long gameId;
     private Long pitcher;
 
+    @PersistenceConstructor
     public Inning(Long id, Long inningNumber, int score, boolean isTop, Long baseOne, Long baseTwo, Long baseThree, Long gameId, Long pitcher) {
         this.id = id;
         this.inningNumber = inningNumber;
