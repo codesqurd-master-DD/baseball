@@ -39,9 +39,9 @@ position: absolute;
 top:18%;
 left: 48%;
 `;
-const ScoreBox = ({isHome, awayScore, homeScore, opponentTeamState, outTeamSate}) => {
+const ScoreBox = ({isHome, awayScore, homeScore, homeName, awayName}) => {
     const MatchInfoStr = () => {
-        return `Captain ${awayScore} vs ${homeScore} Marvel`;
+        return `${awayName} ${awayScore} vs ${homeScore} ${homeName}`;
     }
     return (
         <ScoreCotainer>

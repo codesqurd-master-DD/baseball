@@ -17,27 +17,29 @@ const DUMMY = {
 };
 
 function CurrentScoreBox({scoreData}) {
-  const renderRow = (teamname, scores, result, isPlayer = false) => {
+  const {home, away} = scoreData
+  console.log("11111111111 :", home, away)
+  const renderRow = ({teamname, scores, result: total, isPlayer: playerPick = false}) => {
     return (
       <Row>
-        {renderTeamName(teamname, isPlayer)}
+        {renderTeamName(teamname, playerPick)}
         <Scores>
           {scores.map((num) => (
             <div>{num}</div>
           ))}
         </Scores>
         <Result>
-          <div>{result}</div>
+          <div>{total}</div>
         </Result>
       </Row>
     );
   };
 
-  const renderTeamName = (teamname, isPlayer = false) => {
+  const renderTeamName = (teamname, playerPick = false) => {
     return (
       <TeamName>
         <div>{teamname}</div>
-        {isPlayer && <div>player</div>}
+        {playerPick && <div>player</div>}
       </TeamName>
     );
   };
@@ -47,10 +49,10 @@ function CurrentScoreBox({scoreData}) {
   };
   return (
     <ScoreBox onAnimationEnd={onAnimationEnd}>
-      {renderRow("", INNING_COUNT, "R")}
+      {renderRow({name: "", scores : INNING_COUNT, total: "R"})}
       <hr />
-      {renderRow("Captain", [1, 0, 0, 2], 3, true)}
-      {renderRow("Marvel", [0, 0, 2], 2)}
+      {renderRow(home)}
+      {renderRow(away)}
     </ScoreBox>
   );
 }

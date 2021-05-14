@@ -72,9 +72,9 @@ padding: 20px;
 `;
 const BasemanCotainer = styled.div`
 position: absolute;
-/* display:flex;
-flex-direction:column-reverse;
-position:relative; */
+display:flex;
+flex-direction:column-reverse; 
+/* position:relative;  */
 `;
 const GroundCotainer = styled.div`
 width: 800px;
@@ -180,6 +180,8 @@ const BasemanBox = styled.div`
 display:felx;
 `;
 const BasemanTitle = styled.div`
+/* display:flex;
+flex-direction:column-reverse; */
 position: absolute;
 font-size:40px;
 /* padding: 20px; */
@@ -214,9 +216,9 @@ const GroundBox = ({awayBasemanState, checkScoreCount, isDefense, decidePlaySequ
             <button onClick={ConvertPosition}>공수전환</button>
             <BasemanBox>
             <BasemanTitle>
-            <BasemanEach>1루수</BasemanEach>
             <BasemanEach>2루수</BasemanEach>
             <BasemanEach>3루수</BasemanEach>
+            <BasemanEach>4루수</BasemanEach>
             <BasemanEach>홈인</BasemanEach>
             </BasemanTitle>
             <BasemanCotainer>{base}</BasemanCotainer>

@@ -15,6 +15,7 @@ const Game = ({ gameId, home, away, setMessage, history, setLoading }) => {
     }
   };
   const onSelectTeam = async (teamId) => {
+    console.log(teamId)
     const { isSelected, homeTeamData, awayTeamData } = await requestTeamDate(
       teamId
     );

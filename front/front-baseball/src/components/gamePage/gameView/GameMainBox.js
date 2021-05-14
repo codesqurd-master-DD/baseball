@@ -8,177 +8,177 @@ import Fade from "../Fade";
 import CurrentScoreBox from "../scoreInfoPop/CurrentScoreBox";
 import PlayerList from "../playerDtailInfoPop/PlayerList";
 
-const playerData = {
-    selectedTeamId: 8,
-    homeTeamData: {
-        selected:true,
-        teamId: 8,
-        teamName: "Rockets",
-        pitcher: {
-        playerId: "player-0",
-        playerNumber: 51,
-        playerName: "류현진",
-        },
-    batters: [
-        {
-            playerId: 1,
-            playerNumber: 8,
-            playerName: "DD",
-        },
-        {
-            playerId: 2,
-            playerNumber: 22,
-            playerName: "Woody",
-        },
-        {
-            playerId: 3,
-            playerNumber: 23,
-            playerName: "Luke",
-        },
-        {
-            playerId: 4,
-            playerNumber: 38,
-            playerName: "json",
-        },
-        {
-            playerId: 5,
-            playerNumber: 25,
-            playerName: "kyle",
-        },
-        {
-            playerId: 6,
-            playerNumber: 29,
-            playerName: "Lano",
-        },
-        {
-            playerId: 7,
-            playerNumber: 299,
-            playerName: "Lana",
-        },
-        {
-            playerId: 8,
-            playerNumber: 298,
-            playerName: "Lanb",
-        },
-        {
-            playerId: 9,
-            playerNumber: 300,
-            playerName: "Lanc",
-        },
-        {
-            playerId: 10,
-            playerNumber: 2313,
-            playerName: "Land",
-        },
-        {
-            playerId: 11,
-            playerNumber: 232,
-            playerName: "Lanx",
-        },
-        {
-            playerId: 12,
-            playerNumber: 234,
-            playerName: "Lanu",
-        }
+// const playerData = {
+//     selectedTeamId: 8,
+//     homeTeamData: {
+//         selected:true,
+//         teamId: 8,
+//         teamName: "Rockets",
+//         pitcher: {
+//         playerId: "player-0",
+//         playerNumber: 51,
+//         playerName: "류현진",
+//         },
+//     batters: [
+//         {
+//             playerId: 1,
+//             playerNumber: 8,
+//             playerName: "DD",
+//         },
+//         {
+//             playerId: 2,
+//             playerNumber: 22,
+//             playerName: "Woody",
+//         },
+//         {
+//             playerId: 3,
+//             playerNumber: 23,
+//             playerName: "Luke",
+//         },
+//         {
+//             playerId: 4,
+//             playerNumber: 38,
+//             playerName: "json",
+//         },
+//         {
+//             playerId: 5,
+//             playerNumber: 25,
+//             playerName: "kyle",
+//         },
+//         {
+//             playerId: 6,
+//             playerNumber: 29,
+//             playerName: "Lano",
+//         },
+//         {
+//             playerId: 7,
+//             playerNumber: 299,
+//             playerName: "Lana",
+//         },
+//         {
+//             playerId: 8,
+//             playerNumber: 298,
+//             playerName: "Lanb",
+//         },
+//         {
+//             playerId: 9,
+//             playerNumber: 300,
+//             playerName: "Lanc",
+//         },
+//         {
+//             playerId: 10,
+//             playerNumber: 2313,
+//             playerName: "Land",
+//         },
+//         {
+//             playerId: 11,
+//             playerNumber: 232,
+//             playerName: "Lanx",
+//         },
+//         {
+//             playerId: 12,
+//             playerNumber: 234,
+//             playerName: "Lanu",
+//         }
 
-    ],
-    },
-    awayTeamData: {
-        selected:false,
-        teamId: 7,
-        teamName: "Captain",
-        pitcher: {
-        playerId: 99,
-        playerNumber: 3,
-        playerName: "박찬호",
-        },
-    batters: [
-        {
-            playerId: 7,
-            playerNumber: 31,
-            playerName: "Seong",
-        },
-        {
-            playerId: 8,
-            playerNumber: 7,
-            playerName: "Goody",
-        },
-        {
-            playerId: 9,
-            playerNumber: 11,
-            playerName: "Adela",
-        },
-        {
-            playerId: 10,
-            playerNumber: 27,
-            playerName: "Daisy",
-        },
-        {
-            playerId: 11,
-            playerNumber: 5,
-            playerName: "Junami",
-        },
-        {
-            playerId: 12,
-            playerNumber: 2,
-            playerName: "eve",
-        },
-        {
-            playerId: 13,
-            playerNumber: 66,
-            playerName: "Dico",
-        },
-        {
-            playerId: 14,
-            playerNumber: 33,
-            playerName: "Neis",
-        },
-        {
-            playerId: 15,
-            playerNumber: 44,
-            playerName: "eamon",
-        },
-        {
-            playerId: 16,
-            playerNumber: 41,
-            playerName: "Junny",
-        },
-        {
-            playerId: 17,
-            playerNumber: 431,
-            playerName: "Crong",
-        },
-        {
-            playerId: 18,
-            playerNumber: 431,
-            playerName: "honux",
-        },
-    ],
-    }
-    }
-    const DUMMY = {
-        home: {
-          teamname: "captain",
-          scores: [],
-          total: 0,
-          playerPick: true,
-        },
-        away: {
-          teamname: "marvel",
-          scroes: [],
-          playerPick: false,
-          total: 0,
-        },
-      };
+//     ],
+//     },
+//     awayTeamData: {
+//         selected:false,
+//         teamId: 7,
+//         teamName: "Captain",
+//         pitcher: {
+//         playerId: 99,
+//         playerNumber: 3,
+//         playerName: "박찬호",
+//         },
+//     batters: [
+//         {
+//             playerId: 7,
+//             playerNumber: 31,
+//             playerName: "Seong",
+//         },
+//         {
+//             playerId: 8,
+//             playerNumber: 7,
+//             playerName: "Goody",
+//         },
+//         {
+//             playerId: 9,
+//             playerNumber: 11,
+//             playerName: "Adela",
+//         },
+//         {
+//             playerId: 10,
+//             playerNumber: 27,
+//             playerName: "Daisy",
+//         },
+//         {
+//             playerId: 11,
+//             playerNumber: 5,
+//             playerName: "Junami",
+//         },
+//         {
+//             playerId: 12,
+//             playerNumber: 2,
+//             playerName: "eve",
+//         },
+//         {
+//             playerId: 13,
+//             playerNumber: 66,
+//             playerName: "Dico",
+//         },
+//         {
+//             playerId: 14,
+//             playerNumber: 33,
+//             playerName: "Neis",
+//         },
+//         {
+//             playerId: 15,
+//             playerNumber: 44,
+//             playerName: "eamon",
+//         },
+//         {
+//             playerId: 16,
+//             playerNumber: 41,
+//             playerName: "Junny",
+//         },
+//         {
+//             playerId: 17,
+//             playerNumber: 431,
+//             playerName: "Crong",
+//         },
+//         {
+//             playerId: 18,
+//             playerNumber: 431,
+//             playerName: "honux",
+//         },
+//     ],
+//     }
+//     }
+//     const DUMMY = {
+//         home: {
+//           teamname: "captain",
+//           scores: [],
+//           total: 0,
+//           playerPick: true,
+//         },
+//         away: {
+//           teamname: "marvel",
+//           scroes: [],
+//           playerPick: false,
+//           total: 0,
+//         },
+//       };
 
-
-const GameMainBox = () => {
+const GameMainBox = ({location}) => {
 
     // console.log('로케',location)
-    // const playerData = location.state;
+    const playerData = location.state;
     const {homeTeamData, awayTeamData, selectedTeamId} = playerData;
+
     // const {teamId} = 
-    let scoreData = {
+    let initScoreData = {
         home: {
           teamname: `${homeTeamData.teamName}`,
           playerPick: `${selectedTeamId === homeTeamData.teamId}`,
@@ -188,7 +188,7 @@ const GameMainBox = () => {
           playerPick: `${selectedTeamId === awayTeamData.teamId}`,
         },
       };
-
+ const [scoreData, setScoreData]= useState(initScoreData)
 
     // 루수에대한 배열 상태 -> 4개의 배열상태를 만들어 최신화 하면서 마지막 배열이 1일때 카운터 증가
     const [awayBasemanState, setAwayBasemanState] = useState([]);
@@ -423,7 +423,9 @@ const GameMainBox = () => {
         console.log("어래이정보",homeScoreArr, awayScoreArr)
         let homeScoreTotal = homeScoreArr.reduce((acc, cur) => acc + cur, 0);
         let awayScoreTotal = awayScoreArr.reduce((acc, cur) => acc + cur, 0);
-        scoreData = {
+        console.log('123',  homeScoreTotal)
+        console.log('1234', awayScoreTotal)
+        setScoreData({
             home: {
               teamname: `${homeTeamData.teamName}`,
               scores: homeScoreArr,
@@ -436,7 +438,8 @@ const GameMainBox = () => {
               total: awayScoreTotal,
               playerPick: `${selectedTeamId === awayTeamData.teamId}`,
             },
-          };
+          })
+        
         //   console.log(scoreData);
         // if(!isTop) setHomeScoreArr([...homeScoreArr, inningCount]);
         // if(isTop) setAwayScoreArr([...awayScoreArr, inningCount]);
@@ -467,7 +470,7 @@ const GameMainBox = () => {
         setAllHistory([...allHistory, [
         ballHistory
         ]])
-        setBallHistory([]);
+        // setBallHistory([]);
         setBatterHistory([...batterHistory, {
             id: batterHistory.length,
             cnt: turnState,
@@ -522,7 +525,7 @@ const GameMainBox = () => {
         ""
       )}
             <MatchContainer>
-                <ScoreBox isHome={isHome}awayScore={awayScore} homeScore={homeScore}/>
+                <ScoreBox isHome={isHome} awayScore={awayScore} homeScore={homeScore} homeName={scoreData.home.teamname} awayName={scoreData.away.teamname}/>
                 <GroundBox awayBasemanState={awayBasemanState} isDefense={isDefense} decidePlaySequence={decidePlaySequence} ConvertPosition={ConvertPosition} pitchState={pitchState} isTop={isTop} roundCount={roundCount} strikeCnt={strikeCnt} ballCnt={ballCnt} outCnt={outCnt} createPitchResult={createPitchResult} playerData={playerData}/>
             </MatchContainer>
             <PlayerContainer>

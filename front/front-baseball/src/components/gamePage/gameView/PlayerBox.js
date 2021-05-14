@@ -30,14 +30,12 @@ color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
 
 const PlayerBox = ({hitsAcc, batterHistory,createPitcherArr}) => {
-    // console.log('누저 안타',hitsAcc)
     let newObj = batterHistory[batterHistory.length-1];
     let newPlayrInfo = [];
     for(let value in newObj) {
         let hitsInfo = newObj[value];
-        if(value === "Number") newPlayrInfo.push(`#${newObj[value]}`);
-        if(value === 'hits') newPlayrInfo.push(`안타${newObj[value]}`);
-        if(value === 'value') newPlayrInfo.push(newObj[value])
+        if(value === "number") newPlayrInfo.push(`#${newObj[value]}`);
+        if(value === "value") newPlayrInfo.push(newObj[value])
     }
     const batterList = newPlayrInfo.map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
     const pitcherList = [createPitcherArr()].map((e, idx) => <PlayerList key={idx} active={idx}>{e}</PlayerList>)
