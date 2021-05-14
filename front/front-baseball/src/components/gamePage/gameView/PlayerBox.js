@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 const PlayerContainer = styled.div`
 width: 100%;
@@ -28,7 +28,6 @@ const PlayerList = styled.li`
 margin-right: 20px;
 color: ${(props) => (props.active === 0 ? "#c4e4ea;" : "#70aac0")};
 `;
-
 const PlayerBox = ({hitsAcc, batterHistory,createPitcherArr}) => {
     let newObj = batterHistory[batterHistory.length-1];
     let newPlayrInfo = [];

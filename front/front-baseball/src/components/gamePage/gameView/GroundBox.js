@@ -25,7 +25,7 @@ display:inline-block`;
 const HorizonList = styled.ul`
 list-style: none;
 display:felx;
-border: 1px solid red;
+/* border: 1px solid red; */
 align-items: center;
 
 `;
@@ -34,6 +34,7 @@ const StrikeView = styled(HorizonList)`
 const BallView = styled(HorizonList)``;
 const OutView = styled(HorizonList)``;
 const SBOList = styled.li`
+/* padding-left: 30px; */
 font-size: 40px;
 font-weight: 600;
 `;
