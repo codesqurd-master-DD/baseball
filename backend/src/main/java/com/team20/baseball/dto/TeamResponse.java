@@ -14,7 +14,7 @@ public class TeamResponse {
     }
 
     public static TeamResponse of(Team team) {
-        return new TeamResponse(team.getId(), team.getName(), false);
+        return new TeamResponse(team.getId(), team.getName(), team.isSelected());
     }
 
     public Long getTeamId() {
