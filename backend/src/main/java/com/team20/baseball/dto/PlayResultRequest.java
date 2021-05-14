@@ -1,15 +1,20 @@
 package com.team20.baseball.dto;
 
 public class PlayResultRequest {
+
+    private Long gameId;
     private Long inningId;
-    private Character result;
+    private Long batter;
+    private String result;
     private int score;
     private Long baseOne;
     private Long baseTwo;
     private Long baseThree;
 
-    public PlayResultRequest(Long inningId, Character result, int score, Long baseOne, Long baseTwo, Long baseThree) {
+    public PlayResultRequest(Long gameId, Long inningId, Long batter, String result, int score, Long baseOne, Long baseTwo, Long baseThree) {
+        this.gameId = gameId;
         this.inningId = inningId;
+        this.batter = batter;
         this.result = result;
         this.score = score;
         this.baseOne = baseOne;
@@ -17,11 +22,19 @@ public class PlayResultRequest {
         this.baseThree = baseThree;
     }
 
+    public Long getGameId() {
+        return gameId;
+    }
+
     public Long getInningId() {
         return inningId;
     }
 
-    public Character getResult() {
+    public Long getBatter() {
+        return batter;
+    }
+
+    public String getResult() {
         return result;
     }
 
